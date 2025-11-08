@@ -57,7 +57,12 @@ C_SRCS +=  \
 ../FreeRTOS/Source/tasks.c \
 ../FreeRTOS/Source/timers.c \
 ../main.c \
-../project/src/tasks.c
+../project/src/spi.c \
+../project/src/states.c \
+../project/src/tasks.c \
+../project/src/telemetry.c \
+../project/src/uart.c \
+../project/src/w25qxx.c
 
 
 PREPROCESSING_SRCS += 
@@ -74,7 +79,12 @@ FreeRTOS/Source/queue.o \
 FreeRTOS/Source/tasks.o \
 FreeRTOS/Source/timers.o \
 main.o \
-project/src/tasks.o
+project/src/spi.o \
+project/src/states.o \
+project/src/tasks.o \
+project/src/telemetry.o \
+project/src/uart.o \
+project/src/w25qxx.o
 
 OBJS_AS_ARGS +=  \
 FreeRTOS/Source/list.o \
@@ -84,7 +94,12 @@ FreeRTOS/Source/queue.o \
 FreeRTOS/Source/tasks.o \
 FreeRTOS/Source/timers.o \
 main.o \
-project/src/tasks.o
+project/src/spi.o \
+project/src/states.o \
+project/src/tasks.o \
+project/src/telemetry.o \
+project/src/uart.o \
+project/src/w25qxx.o
 
 C_DEPS +=  \
 FreeRTOS/Source/list.d \
@@ -94,7 +109,12 @@ FreeRTOS/Source/queue.d \
 FreeRTOS/Source/tasks.d \
 FreeRTOS/Source/timers.d \
 main.d \
-project/src/tasks.d
+project/src/spi.d \
+project/src/states.d \
+project/src/tasks.d \
+project/src/telemetry.d \
+project/src/uart.d \
+project/src/w25qxx.d
 
 C_DEPS_AS_ARGS +=  \
 FreeRTOS/Source/list.d \
@@ -104,7 +124,12 @@ FreeRTOS/Source/queue.d \
 FreeRTOS/Source/tasks.d \
 FreeRTOS/Source/timers.d \
 main.d \
-project/src/tasks.d
+project/src/spi.d \
+project/src/states.d \
+project/src/tasks.d \
+project/src/telemetry.d \
+project/src/uart.d \
+project/src/w25qxx.d
 
 OUTPUT_FILE_PATH +=obc.elf
 
@@ -123,56 +148,91 @@ LINKER_SCRIPT_DEP+=
 FreeRTOS/Source/list.o: ../FreeRTOS/Source/list.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../libcsp/include" -I"../libcsp/include/csp" -I"../libcsp/include/csp/crypto" -I"../libcsp/include/csp/transport" -I"../libcsp/include/csp/interfaces" -I"../libcsp/include/csp/drivers" -I"../libcsp/include/csp/arch" -I"../libcsp/src" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 FreeRTOS/Source/portable/MemMang/heap_4.o: ../FreeRTOS/Source/portable/MemMang/heap_4.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../libcsp/include" -I"../libcsp/include/csp" -I"../libcsp/include/csp/crypto" -I"../libcsp/include/csp/transport" -I"../libcsp/include/csp/interfaces" -I"../libcsp/include/csp/drivers" -I"../libcsp/include/csp/arch" -I"../libcsp/src" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 FreeRTOS/Source/portable/WinAVR/ATmega2560/port.o: ../FreeRTOS/Source/portable/WinAVR/ATmega2560/port.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../libcsp/include" -I"../libcsp/include/csp" -I"../libcsp/include/csp/crypto" -I"../libcsp/include/csp/transport" -I"../libcsp/include/csp/interfaces" -I"../libcsp/include/csp/drivers" -I"../libcsp/include/csp/arch" -I"../libcsp/src" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 FreeRTOS/Source/queue.o: ../FreeRTOS/Source/queue.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../libcsp/include" -I"../libcsp/include/csp" -I"../libcsp/include/csp/crypto" -I"../libcsp/include/csp/transport" -I"../libcsp/include/csp/interfaces" -I"../libcsp/include/csp/drivers" -I"../libcsp/include/csp/arch" -I"../libcsp/src" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 FreeRTOS/Source/tasks.o: ../FreeRTOS/Source/tasks.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../libcsp/include" -I"../libcsp/include/csp" -I"../libcsp/include/csp/crypto" -I"../libcsp/include/csp/transport" -I"../libcsp/include/csp/interfaces" -I"../libcsp/include/csp/drivers" -I"../libcsp/include/csp/arch" -I"../libcsp/src" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 FreeRTOS/Source/timers.o: ../FreeRTOS/Source/timers.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../libcsp/include" -I"../libcsp/include/csp" -I"../libcsp/include/csp/crypto" -I"../libcsp/include/csp/transport" -I"../libcsp/include/csp/interfaces" -I"../libcsp/include/csp/drivers" -I"../libcsp/include/csp/arch" -I"../libcsp/src" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 ./main.o: .././main.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../libcsp/include" -I"../libcsp/include/csp" -I"../libcsp/include/csp/crypto" -I"../libcsp/include/csp/transport" -I"../libcsp/include/csp/interfaces" -I"../libcsp/include/csp/drivers" -I"../libcsp/include/csp/arch" -I"../libcsp/src" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+project/src/spi.o: ../project/src/spi.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+project/src/states.o: ../project/src/states.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 project/src/tasks.o: ../project/src/tasks.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../libcsp/include" -I"../libcsp/include/csp" -I"../libcsp/include/csp/crypto" -I"../libcsp/include/csp/transport" -I"../libcsp/include/csp/interfaces" -I"../libcsp/include/csp/drivers" -I"../libcsp/include/csp/arch" -I"../libcsp/src" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+project/src/telemetry.o: ../project/src/telemetry.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+project/src/uart.o: ../project/src/uart.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+project/src/w25qxx.o: ../project/src/w25qxx.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 

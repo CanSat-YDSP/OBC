@@ -1,5 +1,5 @@
-project/src/tasks.d project/src/tasks.o: ../project/src/tasks.c \
- ../project/include/tasks.h \
+project/src/w25qxx.d project/src/w25qxx.o: ../project/src/w25qxx.c \
+ ../project/include/w25qxx.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -11,19 +11,9 @@ project/src/tasks.d project/src/tasks.o: ../project/src/tasks.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
- ../FreeRTOS/Source/include/FreeRTOS.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
- ../FreeRTOSConfig.h ../FreeRTOS/Source/include/projdefs.h \
- ../FreeRTOS/Source/include/portable.h \
- ../FreeRTOS/Source/include/deprecated_definitions.h \
- ../FreeRTOS/Source/portable/WinAVR/ATmega2560/portmacro.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
- ../FreeRTOS/Source/include/mpu_wrappers.h ../project/include/w25qxx.h \
- ../project/include/telemetry.h ../FreeRTOS/Source/include/queue.h \
- ../project/include/states.h ../FreeRTOS/Source/include/semphr.h \
- ../FreeRTOS/Source/include/queue.h ../project/include/telemetry.h
+ ../project/include/spi.h ../project/include/uart.h
 
-../project/include/tasks.h:
+../project/include/w25qxx.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -47,34 +37,6 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h:
 
-../FreeRTOS/Source/include/FreeRTOS.h:
+../project/include/spi.h:
 
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
-
-../FreeRTOSConfig.h:
-
-../FreeRTOS/Source/include/projdefs.h:
-
-../FreeRTOS/Source/include/portable.h:
-
-../FreeRTOS/Source/include/deprecated_definitions.h:
-
-../FreeRTOS/Source/portable/WinAVR/ATmega2560/portmacro.h:
-
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
-
-../FreeRTOS/Source/include/mpu_wrappers.h:
-
-../project/include/w25qxx.h:
-
-../project/include/telemetry.h:
-
-../FreeRTOS/Source/include/queue.h:
-
-../project/include/states.h:
-
-../FreeRTOS/Source/include/semphr.h:
-
-../FreeRTOS/Source/include/queue.h:
-
-../project/include/telemetry.h:
+../project/include/uart.h:

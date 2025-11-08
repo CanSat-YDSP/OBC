@@ -16,5 +16,15 @@ FreeRTOS\Source\timers.c
 
 main.c
 
+project\src\spi.c
+
+project\src\states.c
+
 project\src\tasks.c
+
+project\src\telemetry.c
+
+project\src\uart.c
+
+project\src\w25qxx.c
 

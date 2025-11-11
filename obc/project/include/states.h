@@ -11,7 +11,6 @@
 
 #include <FreeRTOS.h>
 #include "semphr.h"
-#include "telemetry.h"
 
 typedef enum {
 	MODE_SIMULATION,
@@ -21,14 +20,27 @@ typedef enum {
 typedef enum {
 	LAUNCH_PAD,
 	ASCENT,
-	APOGEE,
+	// APOGEE,
 	DESCENT,
 	PROBE_RELEASE,
 	LANDED
 } CanSatStage_t;
 
+typedef enum {
+	LAUNCH_OK,
+	MAX_HEIGHT_REACHED,
+	RELEASE_HEIGHT_REACHED,
+	IS_LANDED
+} CanSatEvents_t;
+
+typedef void (*HandlerFunc)(); // typedef for function table
+
+// extern all handler functions
+extern void ascent_handler();
+
+extern HandlerFunc functionTable[];
 extern SemaphoreHandle_t stateMutex;
 
-extern TelemetryData universal_telemetry;
+extern QueueHandle_t events_queue;
 
 #endif /* STATES_H_ */

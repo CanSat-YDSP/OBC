@@ -12,6 +12,7 @@
 
 // 
 #include "uart.h"
+#include "spi.h"
 #include "w25qxx.h"
 #include "telemetry.h"
 #include "states.h"
@@ -20,21 +21,24 @@ extern TaskHandle_t I2C_task;
 
 int main(void)
 {
-	
 	UART_init(UBBR);
 	SPI_init();
 	
-	stateMutex = xSemaphoreCreateMutex();
+	stateMutex = xSemaphoreCreateMutex(); // mutex for universal telemetry; in hindsight could also use a queue since state_handler doesn't use it
+	events_queue = xQueueCreate(10, sizeof(CanSatEvents_t));
 	
 	// Additional task to see that multiple tasks can run at the same time
 	extern void simulated_data_reading (void *pvParameters);
 	xTaskCreate(simulated_data_reading, "Task to simulate reading data from W25Q32, will include other sensors", 100, NULL, 2, NULL);
 	
-	// Task to send telemetry to ground
 	extern void send_to_ground (void *pvParameters);
 	xTaskCreate(send_to_ground, "Task to send telemetry to ground", 200, NULL, 2, NULL);
 	
+	extern void receive_from_ground (void *pvParameters);
+	xTaskCreate(receive_from_ground, "Task to receive commands from ground", 200, NULL, 2, NULL);
 	
+	extern void state_manager (void *pvParameters);
+	xTaskCreate(state_manager, "Task to handle all events", 100, NULL, 2, NULL);
 	
 	// Start Scheduler
 	vTaskStartScheduler();

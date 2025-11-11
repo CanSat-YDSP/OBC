@@ -20,7 +20,8 @@ project/src/states.d project/src/states.o: ../project/src/states.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  ../FreeRTOS/Source/include/mpu_wrappers.h \
  ../FreeRTOS/Source/include/semphr.h ../FreeRTOS/Source/include/queue.h \
- ../project/include/telemetry.h ../FreeRTOS/Source/include/queue.h
+ ../project/include/telemetry.h ../FreeRTOS/Source/include/queue.h \
+ ../project/include/states.h ../project/include/uart.h
 
 ../FreeRTOS/Source/include/FreeRTOS.h:
 
@@ -69,3 +70,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../project/include/telemetry.h:
 
 ../FreeRTOS/Source/include/queue.h:
+
+../project/include/states.h:
+
+../project/include/uart.h:

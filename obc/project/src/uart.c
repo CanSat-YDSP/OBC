@@ -9,7 +9,6 @@
 #include "uart.h"
 
 void UART_init(uint16_t ubbr) {
-	
 	// for UART 0
 	UBRR0H = (ubbr>>8); // set baud rate
 	UBRR0L = (ubbr);
@@ -31,7 +30,6 @@ void UART0_tx(uint8_t data) {
 void UART1_tx(uint8_t data) {
 	while (!(UCSR1A & (1<<UDRE1)));
 	UDR1 = data;
-	
 }
 
 uint8_t UART0_rx() {
@@ -59,6 +57,19 @@ void UART1_send_bytes(char *s, size_t size) {
 	}
 }
 
-void UART1_receive_bytes(char *s) {
-	
+void UART1_receive_bytes(char *buf) {
+	if (UART1_rx() == 0xFF) {
+		int i = 0;
+		char c = UART1_rx();
+		while (c != 0x0A) {
+			buf[i] = c;
+			c = UART1_rx();
+			i++;
+		}
+		buf[i] = '\0';
+	}
+}
+
+uint8_t UART1_is_ready() {
+	return (UCSR1A & (1<<RXC1));
 }

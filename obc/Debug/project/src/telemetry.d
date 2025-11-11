@@ -19,10 +19,11 @@ project/src/telemetry.d project/src/telemetry.o: \
  ../FreeRTOS/Source/portable/WinAVR/ATmega2560/portmacro.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  ../FreeRTOS/Source/include/mpu_wrappers.h \
- ../FreeRTOS/Source/include/queue.h ../project/include/telemetry.h \
- ../project/include/uart.h ../project/include/states.h \
- ../FreeRTOS/Source/include/semphr.h ../FreeRTOS/Source/include/queue.h \
- ../project/include/telemetry.h
+ ../FreeRTOS/Source/include/queue.h ../FreeRTOS/Source/include/task.h \
+ ../FreeRTOS/Source/include/list.h ../project/include/telemetry.h \
+ ../project/include/states.h ../FreeRTOS/Source/include/semphr.h \
+ ../FreeRTOS/Source/include/queue.h ../project/include/uart.h \
+ ../project/include/states.h
 
 ../FreeRTOS/Source/include/FreeRTOS.h:
 
@@ -66,9 +67,11 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 ../FreeRTOS/Source/include/queue.h:
 
-../project/include/telemetry.h:
+../FreeRTOS/Source/include/task.h:
 
-../project/include/uart.h:
+../FreeRTOS/Source/include/list.h:
+
+../project/include/telemetry.h:
 
 ../project/include/states.h:
 
@@ -76,4 +79,6 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 ../FreeRTOS/Source/include/queue.h:
 
-../project/include/telemetry.h:
+../project/include/uart.h:
+
+../project/include/states.h:

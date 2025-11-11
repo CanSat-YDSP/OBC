@@ -10,6 +10,7 @@
 #define UART_H_
 
 #include <avr/io.h>
+#include <stddef.h>
 
 #define RX0 PE0
 #define TX0 PE1
@@ -21,6 +22,10 @@ void UART1_tx(uint8_t data);
 uint8_t UART1_rx();
 
 void print(char* s);
-void UART1_print(char* s);
+
+void UART1_send_bytes(char *s, size_t size);
+void UART1_receive_bytes(char *buf);
+
+uint8_t UART1_is_ready();
 
 #endif /* UART_H_ */

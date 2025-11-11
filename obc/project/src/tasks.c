@@ -10,10 +10,12 @@
 
 // FreeRTOS
 #include <FreeRTOS.h>
+#include <task.h>
 
 #include "w25qxx.h"
 #include "telemetry.h"
 #include "states.h"
+#include "uart.h"
 
 // This task lights up LED at digital pin 13 (built-in)
 void task_led_blinky (void *pvParameters) {
@@ -41,7 +43,7 @@ void simulated_data_reading (void *pvParameters) {
 		universal_telemetry.placeholder2 = success;
 		xSemaphoreGive(stateMutex);
 		
-		print("Working.");
+		print("Read Sensors\r\n");
 		
 		vTaskDelay(pdMS_TO_TICKS(2000));
 	}

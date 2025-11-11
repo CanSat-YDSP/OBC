@@ -63,7 +63,7 @@ void send_to_ground(void *pvParameters)
 }
 
 void receive_from_ground(void *pvParameters) {
-	uint8_t *buf[20];
+	uint8_t buf[20];
 	while (1) {
 		// check if valid packet
 		print("Listening for Commands!\r\n");

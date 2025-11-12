@@ -11,9 +11,13 @@
 
 #include <avr/io.h>
 #include <stddef.h>
+#include <FreeRTOS.h>
+#include <queue.h>
 
 #define RX0 PE0
 #define TX0 PE1
+
+extern QueueHandle_t uart1_rx_queue;
 
 void UART_init(uint16_t ubbr);
 void UART0_tx(uint8_t data);
@@ -25,7 +29,7 @@ void print(char* s);
 void UART0_send_bytes(char *s, size_t size);
 
 void UART1_send_bytes(char *s, size_t size);
-void UART1_receive_bytes(char *buf);
+void UART1_receive_bytes(uint8_t *buf);
 
 uint8_t UART1_is_ready();
 

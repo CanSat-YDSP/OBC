@@ -17,16 +17,22 @@
 #include "telemetry.h"
 #include "states.h"
 
-extern TaskHandle_t I2C_task;
+#define RX_QUEUE_LEN 30
+#define EVENTS_QUEUE_LEN 10
+#define SIM_PRESSURE_LEN 10
 
 int main(void)
 {
+	
+	sei();
+	
 	UART_init(UBBR);
 	SPI_init();
 	
 	stateMutex = xSemaphoreCreateMutex(); // mutex for universal telemetry; in hindsight could also use a queue since state_handler doesn't use it
-	events_queue = xQueueCreate(10, sizeof(CanSatEvents_t));
-	simulated_pressure_queue = xQueueCreate(10, sizeof(float));
+	uart1_rx_queue = xQueueCreate(RX_QUEUE_LEN, sizeof(uint8_t));
+	events_queue = xQueueCreate(EVENTS_QUEUE_LEN, sizeof(CanSatEvents_t));
+	simulated_pressure_queue = xQueueCreate(SIM_PRESSURE_LEN, sizeof(float));
 	
 	// Additional task to see that multiple tasks can run at the same time
 	extern void simulated_data_reading (void *pvParameters);

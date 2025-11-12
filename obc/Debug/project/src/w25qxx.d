@@ -12,7 +12,15 @@ project/src/w25qxx.d project/src/w25qxx.o: ../project/src/w25qxx.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
  ../project/include/spi.h ../project/include/uart.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
+ ../FreeRTOS/Source/include/FreeRTOS.h ../FreeRTOSConfig.h \
+ ../FreeRTOS/Source/include/projdefs.h \
+ ../FreeRTOS/Source/include/portable.h \
+ ../FreeRTOS/Source/include/deprecated_definitions.h \
+ ../FreeRTOS/Source/portable/WinAVR/ATmega2560/portmacro.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
+ ../FreeRTOS/Source/include/mpu_wrappers.h \
+ ../FreeRTOS/Source/include/queue.h
 
 ../project/include/w25qxx.h:
 
@@ -43,3 +51,21 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../project/include/uart.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
+
+../FreeRTOS/Source/include/FreeRTOS.h:
+
+../FreeRTOSConfig.h:
+
+../FreeRTOS/Source/include/projdefs.h:
+
+../FreeRTOS/Source/include/portable.h:
+
+../FreeRTOS/Source/include/deprecated_definitions.h:
+
+../FreeRTOS/Source/portable/WinAVR/ATmega2560/portmacro.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
+
+../FreeRTOS/Source/include/mpu_wrappers.h:
+
+../FreeRTOS/Source/include/queue.h:

@@ -5,6 +5,8 @@
  *  Author: Yu Heng
  */
 
+#include <string.h>
+
 #include <FreeRTOS.h>
 #include <queue.h>
 #include <task.h>
@@ -67,7 +69,7 @@ void receive_from_ground(void *pvParameters) {
 	while (1) {
 		// check if valid packet
 		// print("Listening for Commands!\r\n");
-		if (UART1_is_ready()) {
+		
 			// print("Read smth!\r\n");
 			UART1_receive_bytes(buf);
 			// print("Copied into buffer!\r\n");
@@ -78,9 +80,6 @@ void receive_from_ground(void *pvParameters) {
 
 			uint8_t command_id = buf[0];
 			CanSatEvents_t event;
-			
-			UART0_send_bytes(&buf, sizeof(buf));
-			print("\n");
 
 			switch (command_id) {
 			case 0x01:
@@ -90,15 +89,12 @@ void receive_from_ground(void *pvParameters) {
 			case 0x02: ;
 				float pressure;
 				memcpy(&pressure, &buf[1], sizeof(float));
-				UART0_send_bytes(&pressure, sizeof(float));
-				print("\n");
 				xQueueSend(simulated_pressure_queue, &pressure, portMAX_DELAY);
 				break;
 			default:
 				print("Something went wrong!\r\n");
 				break;
 			}
-		}
 
 		vTaskDelay(pdMS_TO_TICKS(2000));
 	}

@@ -6,7 +6,12 @@
  */ 
 
 #include <stddef.h>
+#include "FreeRTOS.h"
 #include "uart.h"
+#include "queue.h"
+#include "portmacro.h"
+
+QueueHandle_t uart1_rx_queue;
 
 void UART_init(uint16_t ubbr) {
 	// for UART 0
@@ -18,7 +23,7 @@ void UART_init(uint16_t ubbr) {
 	// for UART 1
 	UBRR1H = (ubbr>>8);
 	UBRR1L = (ubbr);
-	UCSR1B = (1<<TXEN1) | (1<<RXEN1);
+	UCSR1B = (1<<TXEN1) | (1<<RXEN1) | (1<<RXCIE1);
 	UCSR1C = (1<<UCSZ10) | (1<<UCSZ11);
 }
 
@@ -37,6 +42,7 @@ uint8_t UART0_rx() {
 	return UDR0;
 }
 
+// Deprecated, do not use
 uint8_t UART1_rx() {
 	while (!(UCSR1A & (1<<RXC1)));
 	return UDR1;
@@ -57,19 +63,54 @@ void UART1_send_bytes(char *s, size_t size) {
 	}
 }
 
-void UART1_receive_bytes(char *buf) {
-	if (UART1_rx() == 0xFF) {
-		int i = 0;
-		char c = UART1_rx();
-		while (c != 0x0A) {
-			buf[i] = c;
-			c = UART1_rx();
-			i++;
+// need find a way to drop command if no 0x0A
+void UART1_receive_bytes(uint8_t *buf) {
+	//if (UART1_rx() == 0xFF) {
+		//int i = 0;
+		//char c = UART1_rx();
+		//UART0_send_bytes(c, 1);
+		//while (c != 0x0A) {
+			//UART0_send_bytes(&c, 1);
+			//buf[i] = c;
+			//c = UART1_rx();
+			//UART0_send_bytes(&c, 1);
+			//i++;
+		//}
+		//UART0_tx(0xFF);
+		//buf[i] = '\0';
+	//}
+	uint8_t c;
+	size_t i = 0;
+
+	while (1) {
+		if (xQueueReceive(uart1_rx_queue, &c, portMAX_DELAY) == pdTRUE) {
+			if (c == 0xFF) {
+				i = 0;
+				do {
+					xQueueReceive(uart1_rx_queue, &c, portMAX_DELAY);
+					if (c != 0x0A) {
+						buf[i++] = c; 
+					}
+				} while (c != 0x0A);
+				
+				buf[i] = '\0';
+				break;
+			}
 		}
-		buf[i] = '\0';
 	}
 }
 
+ISR(USART1_RX_vect) {
+	uint8_t c = UDR1;
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	xQueueSendFromISR(uart1_rx_queue, &c, &xHigherPriorityTaskWoken);
+	
+	if (xHigherPriorityTaskWoken) {
+		portYIELD();
+	}
+}
+
+// Deprecated
 uint8_t UART1_is_ready() {
 	return (UCSR1A & (1<<RXC1));
 }

@@ -1,6 +1,8 @@
 project/src/telemetry.d project/src/telemetry.o: \
- ../project/src/telemetry.c ../FreeRTOS/Source/include/FreeRTOS.h \
+ ../project/src/telemetry.c \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
+ ../FreeRTOS/Source/include/FreeRTOS.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
  ../FreeRTOSConfig.h \
@@ -25,9 +27,11 @@ project/src/telemetry.d project/src/telemetry.o: \
  ../FreeRTOS/Source/include/queue.h ../project/include/uart.h \
  ../project/include/states.h ../project/include/tasks.h
 
-../FreeRTOS/Source/include/FreeRTOS.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
+
+../FreeRTOS/Source/include/FreeRTOS.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h:
 

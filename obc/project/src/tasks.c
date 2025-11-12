@@ -37,11 +37,11 @@ void simulated_data_reading (void *pvParameters) {
 		// read queue with pressure data
 		if (xQueueReceive(simulated_pressure_queue, &pressure, portMAX_DELAY) == pdTRUE) {
 			xSemaphoreTake(stateMutex, portMAX_DELAY);
-			UART0_send_bytes(&pressure, sizeof(float));
-			print("\n");
 			universal_telemetry.pressure = pressure;
 			universal_telemetry.altitude = 10.0;
-			// print("Read Sensors\r\n");
+			
+			// send events if altitude is high enough
+			
 			xSemaphoreGive(stateMutex);
 		}
 		

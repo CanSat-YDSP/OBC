@@ -19,8 +19,8 @@
 
 typedef struct {
 	// =============== For Automation ===============
-	uint8_t placeholder1;
-	uint8_t placeholder2;
+	float pressure;
+	float altitude;
 	CanSatMode_t mode;
 	CanSatStage_t stage;
 	// ==============================================

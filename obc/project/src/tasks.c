@@ -17,6 +17,8 @@
 #include "states.h"
 #include "uart.h"
 
+QueueHandle_t simulated_pressure_queue;
+
 // This task lights up LED at digital pin 13 (built-in)
 void task_led_blinky (void *pvParameters) {
 	// Create tasks
@@ -30,20 +32,18 @@ void task_led_blinky (void *pvParameters) {
 }
 
 void simulated_data_reading (void *pvParameters) {
+	float pressure;
 	while (1) {
-		uint8_t success = W25QXX_test();
-		
-		//char success_str[2];
-		//memcpy(success_str, &success, 1);
-		//success_str[1] = '\0';
-		//print(success_str);
-		
-		xSemaphoreTake(stateMutex, portMAX_DELAY);
-		universal_telemetry.placeholder1 = 'm';
-		universal_telemetry.placeholder2 = success;
-		xSemaphoreGive(stateMutex);
-		
-		print("Read Sensors\r\n");
+		// read queue with pressure data
+		if (xQueueReceive(simulated_pressure_queue, &pressure, portMAX_DELAY) == pdTRUE) {
+			xSemaphoreTake(stateMutex, portMAX_DELAY);
+			UART0_send_bytes(&pressure, sizeof(float));
+			print("\n");
+			universal_telemetry.pressure = pressure;
+			universal_telemetry.altitude = 10.0;
+			// print("Read Sensors\r\n");
+			xSemaphoreGive(stateMutex);
+		}
 		
 		vTaskDelay(pdMS_TO_TICKS(2000));
 	}

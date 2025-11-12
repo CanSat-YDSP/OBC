@@ -19,8 +19,8 @@ main.d main.o: .././main.c ../project/include/tasks.h \
  ../FreeRTOS/Source/portable/WinAVR/ATmega2560/portmacro.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  ../FreeRTOS/Source/include/mpu_wrappers.h \
- ../FreeRTOS/Source/include/task.h ../FreeRTOS/Source/include/list.h \
- ../FreeRTOS/Source/include/queue.h ../FreeRTOS/Source/include/semphr.h \
+ ../FreeRTOS/Source/include/queue.h ../FreeRTOS/Source/include/task.h \
+ ../FreeRTOS/Source/include/list.h ../FreeRTOS/Source/include/semphr.h \
  ../FreeRTOS/Source/include/queue.h ../project/include/uart.h \
  ../project/include/spi.h ../project/include/w25qxx.h \
  ../project/include/telemetry.h ../project/include/states.h \
@@ -68,11 +68,11 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 ../FreeRTOS/Source/include/mpu_wrappers.h:
 
+../FreeRTOS/Source/include/queue.h:
+
 ../FreeRTOS/Source/include/task.h:
 
 ../FreeRTOS/Source/include/list.h:
-
-../FreeRTOS/Source/include/queue.h:
 
 ../FreeRTOS/Source/include/semphr.h:
 

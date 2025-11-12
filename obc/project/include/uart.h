@@ -22,6 +22,7 @@ void UART1_tx(uint8_t data);
 uint8_t UART1_rx();
 
 void print(char* s);
+void UART0_send_bytes(char *s, size_t size);
 
 void UART1_send_bytes(char *s, size_t size);
 void UART1_receive_bytes(char *buf);

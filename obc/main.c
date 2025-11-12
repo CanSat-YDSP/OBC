@@ -26,6 +26,7 @@ int main(void)
 	
 	stateMutex = xSemaphoreCreateMutex(); // mutex for universal telemetry; in hindsight could also use a queue since state_handler doesn't use it
 	events_queue = xQueueCreate(10, sizeof(CanSatEvents_t));
+	simulated_pressure_queue = xQueueCreate(10, sizeof(float));
 	
 	// Additional task to see that multiple tasks can run at the same time
 	extern void simulated_data_reading (void *pvParameters);

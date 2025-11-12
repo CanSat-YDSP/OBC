@@ -73,3 +73,11 @@ void UART1_receive_bytes(char *buf) {
 uint8_t UART1_is_ready() {
 	return (UCSR1A & (1<<RXC1));
 }
+
+void UART0_send_bytes(char *s, size_t size) {
+	char* end = s + size;
+	while (s < end) {
+		UART0_tx(*s);
+		s++;
+	}
+}

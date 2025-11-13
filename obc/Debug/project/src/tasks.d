@@ -1,4 +1,5 @@
 project/src/tasks.d project/src/tasks.o: ../project/src/tasks.c \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
  ../project/include/tasks.h ../FreeRTOS/Source/include/FreeRTOS.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
@@ -24,6 +25,8 @@ project/src/tasks.d project/src/tasks.o: ../project/src/tasks.c \
  ../project/include/telemetry.h ../project/include/states.h \
  ../FreeRTOS/Source/include/semphr.h ../FreeRTOS/Source/include/queue.h \
  ../project/include/states.h ../project/include/uart.h
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
 
 ../project/include/tasks.h:
 

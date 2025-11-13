@@ -17,6 +17,7 @@
 #include "tasks.h"
 
 QueueHandle_t telemetryQueue;
+uint8_t packet_count = 0;
 
 uint8_t checksum_calculator(TelemetryData *tm_data)
 {
@@ -45,14 +46,18 @@ void send_to_ground(void *pvParameters)
 	{
 		xSemaphoreTake(stateMutex, portMAX_DELAY);
 
+		universal_telemetry.packet_count = packet_count++;
 		// calculate checksum
 		universal_telemetry.checksum = checksum_calculator(&universal_telemetry);
 
 		UART1_send_bytes(&start, 1);
 
 		// =============== For Automation ===============
-		UART1_send_bytes(&(universal_telemetry.pressure), sizeof(universal_telemetry.pressure));
+		UART1_send_bytes(&(universal_telemetry.packet_count), sizeof(universal_telemetry.packet_count));
+		UART1_send_bytes(&(universal_telemetry.mode), sizeof(universal_telemetry.mode));
+		UART1_send_bytes(&(universal_telemetry.stage), sizeof(universal_telemetry.stage));
 		UART1_send_bytes(&(universal_telemetry.altitude), sizeof(universal_telemetry.altitude));
+		UART1_send_bytes(&(universal_telemetry.pressure), sizeof(universal_telemetry.pressure));
 		// ==============================================
 
 		UART1_send_bytes(&(universal_telemetry.checksum), sizeof(universal_telemetry.checksum));
@@ -90,6 +95,10 @@ void receive_from_ground(void *pvParameters) {
 				float pressure;
 				memcpy(&pressure, &buf[1], sizeof(float));
 				xQueueSend(simulated_pressure_queue, &pressure, portMAX_DELAY);
+				break;
+			case 0x03:
+				event = ENTER_SIM;
+				xQueueSend(events_queue, &event, portMAX_DELAY);
 				break;
 			default:
 				print("Something went wrong!\r\n");

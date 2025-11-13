@@ -17,12 +17,15 @@
 #define START_BYTE 0xFF
 #define END_BYTE 0x0A
 
+extern uint8_t packet_count;
+
 typedef struct {
 	// =============== For Automation ===============
-	float pressure;
-	float altitude;
+	uint8_t packet_count;
 	CanSatMode_t mode;
 	CanSatStage_t stage;
+	float altitude;
+	float pressure;
 	// ==============================================
 	uint8_t checksum;
 } TelemetryData;

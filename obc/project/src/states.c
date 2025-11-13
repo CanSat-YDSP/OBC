@@ -10,6 +10,7 @@
 
 #include "telemetry.h"
 #include "uart.h"
+#include "tasks.h"
 
 SemaphoreHandle_t stateMutex;
 TelemetryData universal_telemetry;
@@ -17,26 +18,66 @@ TelemetryData universal_telemetry;
 QueueHandle_t events_queue;
 
 HandlerFunc functionTable[] = {
-	ascent_handler};
+	ascent_handler,
+	descent_hander,
+	release_handler,
+	landing_handler,
+	sim_handler};
 
-void ascent_handler()
-{
-	universal_telemetry.stage = ASCENT;
-
-	print("Launched!");
+void ascent_handler() {
+	xSemaphoreTake(stateMutex, portMAX_DELAY);
+	if (universal_telemetry.stage == LAUNCH_PAD) {
+		universal_telemetry.stage = ASCENT;
+		print("Launched!");
+	}
+	xSemaphoreGive(stateMutex);
 }
 
-void state_manager(void *pvParameters)
-{
-	universal_telemetry.mode = MODE_SIMULATION; // hard code until all sensors come
+void descent_hander() {
+	xSemaphoreTake(stateMutex, portMAX_DELAY);
+	if (universal_telemetry.stage == ASCENT) {
+		universal_telemetry.stage = DESCENT;
+		print("Falling!");
+	}
+	xSemaphoreGive(stateMutex);
+}
+
+void release_handler() {
+	xSemaphoreTake(stateMutex, portMAX_DELAY);
+	if (universal_telemetry.stage == DESCENT) {
+		universal_telemetry.stage = PROBE_RELEASE;
+		print("Probe Released!");
+	}
+	xSemaphoreGive(stateMutex);;
+}
+
+void landing_handler() {
+	xSemaphoreTake(stateMutex, portMAX_DELAY);
+	if (universal_telemetry.stage == PROBE_RELEASE) {
+		universal_telemetry.stage = LANDED;
+		print("Landed!");
+	}
+	xSemaphoreGive(stateMutex);;
+}
+
+void sim_handler() {
+	xSemaphoreTake(stateMutex, portMAX_DELAY);
+	if (universal_telemetry.mode != MODE_SIMULATION) {
+		universal_telemetry.mode = MODE_SIMULATION;
+		extern void simulated_data_reading (void *pvParameters);
+		xTaskCreate(simulated_data_reading, "Task to simulate reading data from W25Q32, will include other sensors", 100, NULL, 2, NULL);
+	}
+	xSemaphoreGive(stateMutex);
+}
+
+void state_manager(void *pvParameters) {
+	universal_telemetry.mode = MODE_FLIGHT; // hard code until all sensors come
 	universal_telemetry.stage = LAUNCH_PAD;		// cansat starts off on ground
 
 	CanSatEvents_t current_event;
 
-	while (1)
-	{
-		if (xQueueReceive(events_queue, &current_event, portMAX_DELAY) == pdTRUE)
-		{
+	while (1) {
+		if (xQueueReceive(events_queue, &current_event, portMAX_DELAY) == pdTRUE) {
 			functionTable[current_event]();
 		}
 	}

@@ -34,10 +34,6 @@ int main(void)
 	events_queue = xQueueCreate(EVENTS_QUEUE_LEN, sizeof(CanSatEvents_t));
 	simulated_pressure_queue = xQueueCreate(SIM_PRESSURE_LEN, sizeof(float));
 	
-	// Additional task to see that multiple tasks can run at the same time
-	extern void simulated_data_reading (void *pvParameters);
-	xTaskCreate(simulated_data_reading, "Task to simulate reading data from W25Q32, will include other sensors", 100, NULL, 2, NULL);
-	
 	extern void send_to_ground (void *pvParameters);
 	xTaskCreate(send_to_ground, "Task to send telemetry to ground", 200, NULL, 2, NULL);
 	

@@ -23,13 +23,16 @@
 
 int main(void)
 {
-	
 	sei();
 	
 	UART_init(UBBR);
 	SPI_init();
 	
-	stateMutex = xSemaphoreCreateMutex(); // mutex for universal telemetry; in hindsight could also use a queue since state_handler doesn't use it
+	print("Insert CanSat Name Here\r\n");
+	print("----------------\r\n");
+	print("Initializing...\r\n");
+	
+	stateMutex = xSemaphoreCreateMutex();
 	uart1_rx_queue = xQueueCreate(RX_QUEUE_LEN, sizeof(uint8_t));
 	events_queue = xQueueCreate(EVENTS_QUEUE_LEN, sizeof(CanSatEvents_t));
 	simulated_pressure_queue = xQueueCreate(SIM_PRESSURE_LEN, sizeof(float));
@@ -42,6 +45,8 @@ int main(void)
 	
 	extern void state_manager (void *pvParameters);
 	xTaskCreate(state_manager, "Task to handle all events", 100, NULL, 2, NULL);
+	
+	print("Starting...\r\n");
 	
 	// Start Scheduler
 	vTaskStartScheduler();

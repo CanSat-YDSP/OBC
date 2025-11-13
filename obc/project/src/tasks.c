@@ -20,7 +20,6 @@
 #include "uart.h"
 
 #define FALL_THRESHOLD 2.0f
-#define PARACHUTE_DEPLOY_ALT 700.0f
 #define STATIONARY_THRESHOLD 0.5f
 
 QueueHandle_t simulated_pressure_queue;
@@ -42,33 +41,40 @@ void task_led_blinky (void *pvParameters) {
 	
 	while (1) {
 		PORTB ^= (1<<PB7);
-		vTaskDelay(pdMS_TO_TICKS(2000));
+		vTaskDelay(pdMS_TO_TICKS(1000));
 	}
 }
 
 void simulated_data_reading (void *pvParameters) {
 	float pressure;
-	old_altitude = 0;
+	old_altitude = 0.0f;
 	CanSatEvents_t event;
 	while (1) {
 		// read queue with pressure data
 		if (xQueueReceive(simulated_pressure_queue, &pressure, portMAX_DELAY) == pdTRUE) {
 			xSemaphoreTake(stateMutex, portMAX_DELAY);
 			universal_telemetry.pressure = pressure;
-			universal_telemetry.altitude = 44330 * (1-pow(pressure/101325, 0.1903));
+			universal_telemetry.altitude = 44330.0f * (1.0f-powf(pressure/101325.0f, 0.1903f));
+			
+			char altitude_text[20];
+			char altitude_str[10];
+			dtostrf(universal_telemetry.altitude, 6, 2, altitude_str);
+			sprintf(altitude_text, "Altitude: %s\r\n", altitude_str);
+			print(altitude_text);
 			
 			// send events if altitude is high enough
-			if (universal_telemetry.stage == ASCENT && is_falling(universal_telemetry.altitude)) {
+			if (is_falling(universal_telemetry.altitude)) {
+				print("Is Falling!\r\n");
 				event = MAX_HEIGHT_REACHED;
 				xQueueSend(events_queue, &event, portMAX_DELAY);
 			}
 			
-			if (universal_telemetry.stage == DESCENT && universal_telemetry.altitude < PARACHUTE_DEPLOY_ALT) {
+			if (universal_telemetry.altitude < deploy_height) {
 				event = RELEASE_HEIGHT_REACHED;
 				xQueueSend(events_queue, &event, portMAX_DELAY);
 			}
 			
-			if (universal_telemetry.stage == PROBE_RELEASE && is_stationary(universal_telemetry.altitude)) {
+			if (is_stationary(universal_telemetry.altitude)) {
 				event = IS_LANDED;
 				xQueueSend(events_queue, &event, portMAX_DELAY);
 			}
@@ -78,6 +84,6 @@ void simulated_data_reading (void *pvParameters) {
 			xSemaphoreGive(stateMutex);
 		}
 		
-		vTaskDelay(pdMS_TO_TICKS(2000));
+		vTaskDelay(pdMS_TO_TICKS(1000));
 	}
 }

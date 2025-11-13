@@ -19,19 +19,42 @@
 QueueHandle_t telemetryQueue;
 uint8_t packet_count = 0;
 
+uint8_t checksum_checker(uint8_t *buf, size_t len) {
+    uint8_t checksum = 0;
+    for (size_t i = 0; i < len; i++) {
+        checksum ^= buf[i];
+    }
+    return checksum;
+}
+
 uint8_t checksum_calculator(TelemetryData *tm_data)
 {
 	uint8_t checksum = 0;
 
 	// =============== For Automation ===============
-	for (size_t i = 0; i < sizeof(tm_data->pressure); i++)
+	for (size_t i = 0; i < sizeof(tm_data->packet_count); i++)
 	{
-		checksum ^= *((uint8_t *)(&(tm_data->pressure)) + i);
+		checksum ^= *((uint8_t *)(&(tm_data->packet_count)) + i);
 	}
-
+	
+	for (size_t i = 0; i < sizeof(tm_data->mode); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->mode)) + i);
+	}
+	
+	for (size_t i = 0; i < sizeof(tm_data->stage); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->stage)) + i);
+	}
+	
 	for (size_t i = 0; i < sizeof(tm_data->altitude); i++)
 	{
 		checksum ^= *((uint8_t *)(&(tm_data->altitude)) + i);
+	}
+	
+	for (size_t i = 0; i < sizeof(tm_data->pressure); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->pressure)) + i);
 	}
 	// ==============================================
 
@@ -65,27 +88,24 @@ void send_to_ground(void *pvParameters)
 
 		xSemaphoreGive(stateMutex);
 
-		vTaskDelay(pdMS_TO_TICKS(2000));
+		vTaskDelay(pdMS_TO_TICKS(1000));
 	}
 }
 
 void receive_from_ground(void *pvParameters) {
 	uint8_t buf[20];
 	while (1) {
-		// check if valid packet
-		// print("Listening for Commands!\r\n");
 		
-			// print("Read smth!\r\n");
-			UART1_receive_bytes(buf);
-			// print("Copied into buffer!\r\n");
+		UART1_receive_bytes(buf);
 
-			// =============== For Automation ===============
-			// for now I'm assuming the command is just a single byte
-			// will eventually verify checksum and allow for command arguments
+		// =============== For Automation ===============
 
-			uint8_t command_id = buf[0];
-			CanSatEvents_t event;
-
+		size_t command_length = buf[0];
+		uint8_t command_id = buf[1];
+		CanSatEvents_t event;
+		
+		// confirm validity of command packet
+		if (checksum_checker(&buf[1], command_length) == buf[command_length + 1]) {
 			switch (command_id) {
 			case 0x01:
 				event = LAUNCH_OK;
@@ -93,7 +113,7 @@ void receive_from_ground(void *pvParameters) {
 				break;
 			case 0x02: ;
 				float pressure;
-				memcpy(&pressure, &buf[1], sizeof(float));
+				memcpy(&pressure, &buf[2], sizeof(float));
 				xQueueSend(simulated_pressure_queue, &pressure, portMAX_DELAY);
 				break;
 			case 0x03:
@@ -102,9 +122,14 @@ void receive_from_ground(void *pvParameters) {
 				break;
 			default:
 				print("Something went wrong!\r\n");
+				UART0_send_bytes(buf, 20);
 				break;
 			}
+		}
+		else {
+			print("Dropped an invalid packet.\r\n");
+		}
 
-		vTaskDelay(pdMS_TO_TICKS(2000));
+		vTaskDelay(pdMS_TO_TICKS(1000));
 	}
 }

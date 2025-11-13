@@ -48,4 +48,6 @@ extern SemaphoreHandle_t stateMutex;
 
 extern QueueHandle_t events_queue;
 
+extern float deploy_height;
+
 #endif /* STATES_H_ */

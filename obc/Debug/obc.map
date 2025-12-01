@@ -205,7 +205,7 @@ Discarded input sections
  .debug_aranges
                 0x00000000       0x18 FreeRTOS/Source/timers.o
  .debug_line    0x00000000       0x1a FreeRTOS/Source/timers.o
- .debug_str     0x00000000      0x17c FreeRTOS/Source/timers.o
+ .debug_str     0x00000000      0x180 FreeRTOS/Source/timers.o
  .comment       0x00000000       0x31 FreeRTOS/Source/timers.o
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
@@ -248,17 +248,29 @@ Discarded input sections
  .rodata.str1.1
                 0x00000000       0x13 project/src/w25qxx.o
  .text.W25QXX_test
-                0x00000000       0x74 project/src/w25qxx.o
- .debug_info    0x00000000      0x239 project/src/w25qxx.o
- .debug_abbrev  0x00000000      0x12d project/src/w25qxx.o
- .debug_loc     0x00000000      0x14c project/src/w25qxx.o
+                0x00000000       0x84 project/src/w25qxx.o
+ .text.read_data
+                0x00000000       0x42 project/src/w25qxx.o
+ .text.release_power_down
+                0x00000000       0x14 project/src/w25qxx.o
+ .text.read_status
+                0x00000000       0x22 project/src/w25qxx.o
+ .text.write_enable
+                0x00000000       0x1c project/src/w25qxx.o
+ .text.write_page
+                0x00000000       0x72 project/src/w25qxx.o
+ .text.clear_chip
+                0x00000000       0x20 project/src/w25qxx.o
+ .debug_info    0x00000000      0x5ac project/src/w25qxx.o
+ .debug_abbrev  0x00000000      0x18a project/src/w25qxx.o
+ .debug_loc     0x00000000      0x36e project/src/w25qxx.o
  .debug_aranges
-                0x00000000       0x28 project/src/w25qxx.o
- .debug_ranges  0x00000000       0x18 project/src/w25qxx.o
- .debug_line    0x00000000      0x123 project/src/w25qxx.o
- .debug_str     0x00000000      0x1d9 project/src/w25qxx.o
+                0x00000000       0x58 project/src/w25qxx.o
+ .debug_ranges  0x00000000       0x48 project/src/w25qxx.o
+ .debug_line    0x00000000      0x30f project/src/w25qxx.o
+ .debug_str     0x00000000      0x254 project/src/w25qxx.o
  .comment       0x00000000       0x31 project/src/w25qxx.o
- .debug_frame   0x00000000       0x64 project/src/w25qxx.o
+ .debug_frame   0x00000000      0x10c project/src/w25qxx.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(addsf3.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(addsf3.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(addsf3.o)
@@ -1019,7 +1031,7 @@ END GROUP
  *(.fini0)
                 0x0000340a                _etext = .
 
-.data           0x00800200      0x17c load address 0x0000340a
+.data           0x00800200      0x16c load address 0x0000340a
                 0x00800200                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -1032,100 +1044,101 @@ END GROUP
  .rodata.str1.1
                 0x0080020a        0x5 FreeRTOS/Source/tasks.o
  .rodata.str1.1
-                0x0080020f       0xad main.o
+                0x0080020f       0x9c main.o
  .rodata.str1.1
-                0x008002bc       0x6e project/src/states.o
+                0x008002ab       0x6e project/src/states.o
                                  0x79 (size before relaxing)
  .rodata.str1.1
-                0x0080032a       0x1d project/src/tasks.o
+                0x00800319       0x1d project/src/tasks.o
  .rodata.str1.1
-                0x00800347       0x35 project/src/telemetry.o
+                0x00800336       0x35 project/src/telemetry.o
  *(.gnu.linkonce.r*)
-                0x0080037c                . = ALIGN (0x2)
-                0x0080037c                _edata = .
-                0x0080037c                PROVIDE (__data_end, .)
+                0x0080036c                . = ALIGN (0x2)
+ *fill*         0x0080036b        0x1 
+                0x0080036c                _edata = .
+                0x0080036c                PROVIDE (__data_end, .)
 
-.bss            0x0080037c     0x1820
-                0x0080037c                PROVIDE (__bss_start, .)
+.bss            0x0080036c     0x1820
+                0x0080036c                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.xBlockAllocatedBit
-                0x0080037c        0x2 FreeRTOS/Source/portable/MemMang/heap_4.o
+                0x0080036c        0x2 FreeRTOS/Source/portable/MemMang/heap_4.o
  .bss.xMinimumEverFreeBytesRemaining
-                0x0080037e        0x2 FreeRTOS/Source/portable/MemMang/heap_4.o
+                0x0080036e        0x2 FreeRTOS/Source/portable/MemMang/heap_4.o
  .bss.xFreeBytesRemaining
-                0x00800380        0x2 FreeRTOS/Source/portable/MemMang/heap_4.o
- .bss.pxEnd     0x00800382        0x2 FreeRTOS/Source/portable/MemMang/heap_4.o
- .bss.xStart    0x00800384        0x4 FreeRTOS/Source/portable/MemMang/heap_4.o
- .bss.ucHeap    0x00800388     0x1770 FreeRTOS/Source/portable/MemMang/heap_4.o
+                0x00800370        0x2 FreeRTOS/Source/portable/MemMang/heap_4.o
+ .bss.pxEnd     0x00800372        0x2 FreeRTOS/Source/portable/MemMang/heap_4.o
+ .bss.xStart    0x00800374        0x4 FreeRTOS/Source/portable/MemMang/heap_4.o
+ .bss.ucHeap    0x00800378     0x1770 FreeRTOS/Source/portable/MemMang/heap_4.o
  .bss.uxSchedulerSuspended
-                0x00801af8        0x1 FreeRTOS/Source/tasks.o
+                0x00801ae8        0x1 FreeRTOS/Source/tasks.o
  .bss.xIdleTaskHandle
-                0x00801af9        0x2 FreeRTOS/Source/tasks.o
+                0x00801ae9        0x2 FreeRTOS/Source/tasks.o
  .bss.xNextTaskUnblockTime
-                0x00801afb        0x4 FreeRTOS/Source/tasks.o
+                0x00801aeb        0x4 FreeRTOS/Source/tasks.o
  .bss.uxTaskNumber
-                0x00801aff        0x1 FreeRTOS/Source/tasks.o
+                0x00801aef        0x1 FreeRTOS/Source/tasks.o
  .bss.xNumOfOverflows
-                0x00801b00        0x1 FreeRTOS/Source/tasks.o
+                0x00801af0        0x1 FreeRTOS/Source/tasks.o
  .bss.xYieldPending
-                0x00801b01        0x1 FreeRTOS/Source/tasks.o
+                0x00801af1        0x1 FreeRTOS/Source/tasks.o
  .bss.uxPendedTicks
-                0x00801b02        0x1 FreeRTOS/Source/tasks.o
+                0x00801af2        0x1 FreeRTOS/Source/tasks.o
  .bss.xSchedulerRunning
-                0x00801b03        0x1 FreeRTOS/Source/tasks.o
+                0x00801af3        0x1 FreeRTOS/Source/tasks.o
  .bss.uxTopReadyPriority
-                0x00801b04        0x1 FreeRTOS/Source/tasks.o
+                0x00801af4        0x1 FreeRTOS/Source/tasks.o
  .bss.xTickCount
-                0x00801b05        0x4 FreeRTOS/Source/tasks.o
+                0x00801af5        0x4 FreeRTOS/Source/tasks.o
  .bss.uxCurrentNumberOfTasks
-                0x00801b09        0x1 FreeRTOS/Source/tasks.o
+                0x00801af9        0x1 FreeRTOS/Source/tasks.o
  .bss.xSuspendedTaskList
-                0x00801b0a        0xb FreeRTOS/Source/tasks.o
+                0x00801afa        0xb FreeRTOS/Source/tasks.o
  .bss.uxDeletedTasksWaitingCleanUp
-                0x00801b15        0x1 FreeRTOS/Source/tasks.o
+                0x00801b05        0x1 FreeRTOS/Source/tasks.o
  .bss.xTasksWaitingTermination
-                0x00801b16        0xb FreeRTOS/Source/tasks.o
+                0x00801b06        0xb FreeRTOS/Source/tasks.o
  .bss.xPendingReadyList
-                0x00801b21        0xb FreeRTOS/Source/tasks.o
+                0x00801b11        0xb FreeRTOS/Source/tasks.o
  .bss.pxOverflowDelayedTaskList
-                0x00801b2c        0x2 FreeRTOS/Source/tasks.o
+                0x00801b1c        0x2 FreeRTOS/Source/tasks.o
  .bss.pxDelayedTaskList
-                0x00801b2e        0x2 FreeRTOS/Source/tasks.o
+                0x00801b1e        0x2 FreeRTOS/Source/tasks.o
  .bss.xDelayedTaskList2
-                0x00801b30        0xb FreeRTOS/Source/tasks.o
+                0x00801b20        0xb FreeRTOS/Source/tasks.o
  .bss.xDelayedTaskList1
-                0x00801b3b        0xb FreeRTOS/Source/tasks.o
+                0x00801b2b        0xb FreeRTOS/Source/tasks.o
  .bss.pxReadyTasksLists
-                0x00801b46       0x37 FreeRTOS/Source/tasks.o
+                0x00801b36       0x37 FreeRTOS/Source/tasks.o
  .bss.pxCurrentTCB
-                0x00801b7d        0x2 FreeRTOS/Source/tasks.o
-                0x00801b7d                pxCurrentTCB
+                0x00801b6d        0x2 FreeRTOS/Source/tasks.o
+                0x00801b6d                pxCurrentTCB
  .bss.deploy_height
-                0x00801b7f        0x4 project/src/states.o
-                0x00801b7f                deploy_height
+                0x00801b6f        0x4 project/src/states.o
+                0x00801b6f                deploy_height
  .bss.packet_count
-                0x00801b83        0x1 project/src/telemetry.o
-                0x00801b83                packet_count
+                0x00801b73        0x1 project/src/telemetry.o
+                0x00801b73                packet_count
  *(COMMON)
- COMMON         0x00801b84       0x10 project/src/states.o
-                0x00801b84                stateMutex
-                0x00801b86                universal_telemetry
-                0x00801b92                events_queue
- COMMON         0x00801b94        0x6 project/src/tasks.o
-                0x00801b94                old_altitude
-                0x00801b98                simulated_pressure_queue
- COMMON         0x00801b9a        0x2 project/src/uart.o
-                0x00801b9a                uart1_rx_queue
-                0x00801b9c                PROVIDE (__bss_end, .)
+ COMMON         0x00801b74       0x10 project/src/states.o
+                0x00801b74                stateMutex
+                0x00801b76                universal_telemetry
+                0x00801b82                events_queue
+ COMMON         0x00801b84        0x6 project/src/tasks.o
+                0x00801b84                old_altitude
+                0x00801b88                simulated_pressure_queue
+ COMMON         0x00801b8a        0x2 project/src/uart.o
+                0x00801b8a                uart1_rx_queue
+                0x00801b8c                PROVIDE (__bss_end, .)
                 0x0000340a                __data_load_start = LOADADDR (.data)
-                0x00003586                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00003576                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00801b9c        0x0
+.noinit         0x00801b8c        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00801b9c                _end = .
+                0x00801b8c                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -1293,31 +1306,31 @@ END GROUP
  .debug_frame   0x00000e08       0x74 project/src/telemetry.o
  .debug_frame   0x00000e7c      0x17c project/src/uart.o
 
-.debug_str      0x00000000     0x1c04
+.debug_str      0x00000000     0x1c08
  *(.debug_str)
  .debug_str     0x00000000      0x3e6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_str     0x000003e6      0x27e FreeRTOS/Source/list.o
-                                0x2bd (size before relaxing)
- .debug_str     0x00000664      0x20e FreeRTOS/Source/portable/MemMang/heap_4.o
-                                0x382 (size before relaxing)
- .debug_str     0x00000872      0x142 FreeRTOS/Source/portable/WinAVR/ATmega2560/port.o
-                                0x2c9 (size before relaxing)
- .debug_str     0x000009b4      0x5e0 FreeRTOS/Source/queue.o
-                                0x89c (size before relaxing)
- .debug_str     0x00000f94      0x83e FreeRTOS/Source/tasks.o
-                                0xd0a (size before relaxing)
- .debug_str     0x000017d2       0xb3 main.o
-                                0x26f (size before relaxing)
- .debug_str     0x00001885       0x42 project/src/spi.o
-                                0x1aa (size before relaxing)
- .debug_str     0x000018c7      0x1b1 project/src/states.o
-                                0x3d5 (size before relaxing)
- .debug_str     0x00001a78       0x80 project/src/tasks.o
-                                0x3e0 (size before relaxing)
- .debug_str     0x00001af8       0xad project/src/telemetry.o
-                                0x412 (size before relaxing)
- .debug_str     0x00001ba5       0x5f project/src/uart.o
-                                0x2b0 (size before relaxing)
+ .debug_str     0x000003e6      0x282 FreeRTOS/Source/list.o
+                                0x2c1 (size before relaxing)
+ .debug_str     0x00000668      0x20e FreeRTOS/Source/portable/MemMang/heap_4.o
+                                0x386 (size before relaxing)
+ .debug_str     0x00000876      0x142 FreeRTOS/Source/portable/WinAVR/ATmega2560/port.o
+                                0x2cd (size before relaxing)
+ .debug_str     0x000009b8      0x5e0 FreeRTOS/Source/queue.o
+                                0x8a0 (size before relaxing)
+ .debug_str     0x00000f98      0x83e FreeRTOS/Source/tasks.o
+                                0xd0e (size before relaxing)
+ .debug_str     0x000017d6       0xb3 main.o
+                                0x273 (size before relaxing)
+ .debug_str     0x00001889       0x42 project/src/spi.o
+                                0x1ae (size before relaxing)
+ .debug_str     0x000018cb      0x1b1 project/src/states.o
+                                0x3d9 (size before relaxing)
+ .debug_str     0x00001a7c       0x80 project/src/tasks.o
+                                0x3e4 (size before relaxing)
+ .debug_str     0x00001afc       0xad project/src/telemetry.o
+                                0x416 (size before relaxing)
+ .debug_str     0x00001ba9       0x5f project/src/uart.o
+                                0x2b4 (size before relaxing)
 
 .debug_loc      0x00000000     0x510c
  *(.debug_loc)

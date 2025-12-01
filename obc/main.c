@@ -9,6 +9,7 @@
 #include <task.h>
 #include <queue.h>
 #include <semphr.h>
+#include <util/delay.h>
 
 // 
 #include "uart.h"
@@ -28,7 +29,21 @@ int main(void)
 	UART_init(UBBR);
 	SPI_init();
 	
-	print("Insert CanSat Name Here\r\n");
+	//clear_chip(); // always remember to clear memory before writing
+	//uint32_t addr = 0x001000;
+	//
+	//uint8_t bytes[4] = {0xDE, 0xAD, 0xBE, 0xEF};
+	//
+	//write_page(addr, bytes, 4);
+	//
+	//uint8_t response;
+	//for (int i = 0; i < 4; i++) {
+		//response = read_data(addr + i);
+		//UART0_send_bytes(&response, 1);
+	//}
+	
+	
+	print("CatSat\r\n");
 	print("----------------\r\n");
 	print("Initializing...\r\n");
 	

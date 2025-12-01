@@ -43,31 +43,41 @@ int main(void)
 	//}
 	
 	
-	print("CatSat\r\n");
-	print("----------------\r\n");
-	print("Initializing...\r\n");
+	//print("CatSat\r\n");
+	//print("----------------\r\n");
+	//print("Initializing...\r\n");
+	//
+	//stateMutex = xSemaphoreCreateMutex();
+	//uart1_rx_queue = xQueueCreate(RX_QUEUE_LEN, sizeof(uint8_t));
+	//events_queue = xQueueCreate(EVENTS_QUEUE_LEN, sizeof(CanSatEvents_t));
+	//simulated_pressure_queue = xQueueCreate(SIM_PRESSURE_LEN, sizeof(float));
+	//
+	//extern void send_to_ground (void *pvParameters);
+	//xTaskCreate(send_to_ground, "Task to send telemetry to ground", 200, NULL, 2, NULL);
+	//
+	//extern void receive_from_ground (void *pvParameters);
+	//xTaskCreate(receive_from_ground, "Task to receive commands from ground", 200, NULL, 2, NULL);
+	//
+	//extern void state_manager (void *pvParameters);
+	//xTaskCreate(state_manager, "Task to handle all events", 100, NULL, 2, NULL);
+	//
+	//print("Starting...\r\n");
+	//
+	//// Start Scheduler
+	//vTaskStartScheduler();
+//
+	///* Execution will only reach here if there was insufficient heap to start the scheduler. */
+	//for ( ;; );
 	
-	stateMutex = xSemaphoreCreateMutex();
-	uart1_rx_queue = xQueueCreate(RX_QUEUE_LEN, sizeof(uint8_t));
-	events_queue = xQueueCreate(EVENTS_QUEUE_LEN, sizeof(CanSatEvents_t));
-	simulated_pressure_queue = xQueueCreate(SIM_PRESSURE_LEN, sizeof(float));
+	uint8_t command[4] = {0xAA, 0x01, 0x00, 1};
+	BNO_buffer[0] = 0x67;
 	
-	extern void send_to_ground (void *pvParameters);
-	xTaskCreate(send_to_ground, "Task to send telemetry to ground", 200, NULL, 2, NULL);
+	UART2_send_bytes(&command, 4);
 	
-	extern void receive_from_ground (void *pvParameters);
-	xTaskCreate(receive_from_ground, "Task to receive commands from ground", 200, NULL, 2, NULL);
+	_delay_ms(1000);
 	
-	extern void state_manager (void *pvParameters);
-	xTaskCreate(state_manager, "Task to handle all events", 100, NULL, 2, NULL);
-	
-	print("Starting...\r\n");
-	
-	// Start Scheduler
-	vTaskStartScheduler();
-
-	/* Execution will only reach here if there was insufficient heap to start the scheduler. */
-	for ( ;; );
+	UART0_send_bytes(BNO_buffer[0], 1);
+	buffer_index = 0; // remember to always reset buffer after reading;
 	
 	return 0;
 }

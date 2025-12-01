@@ -13,6 +13,9 @@
 
 QueueHandle_t uart1_rx_queue;
 
+volatile uint8_t BNO_buffer[20];
+volatile uint8_t buffer_index = 0;
+
 void UART_init(uint16_t ubbr) {
 	// for UART 0
 	UBRR0H = (ubbr>>8); // set baud rate
@@ -27,6 +30,14 @@ void UART_init(uint16_t ubbr) {
 	UCSR1C = (1<<UCSZ10) | (1<<UCSZ11);
 }
 
+void UART2_init() {
+	uint16_t ubbr = 8; // taken from mega datasheet for 115200
+	UBRR2H = (ubbr>>8);
+	UBRR2L = ubbr;
+	UCSR0B = (1<<TXEN2) | (1<<RXEN2);
+	UCSR2C = (1<<UCSZ20) | (1<<UCSZ21);
+}
+
 void UART0_tx(uint8_t data) {
 	while (!(UCSR0A & (1<<UDRE0)));
 	UDR0 = data;
@@ -35,6 +46,11 @@ void UART0_tx(uint8_t data) {
 void UART1_tx(uint8_t data) {
 	while (!(UCSR1A & (1<<UDRE1)));
 	UDR1 = data;
+}
+
+void UART2_tx(uint8_t data) {
+	while (!(UCSR2A & (1<<UDRE2)));
+	UDR2 = data;
 }
 
 uint8_t UART0_rx() {
@@ -48,6 +64,11 @@ uint8_t UART1_rx() {
 	return UDR1;
 }
 
+uint8_t UART2_rx() {
+	while (!(UCSR2A & (1<<RXC2)));
+	return UDR2;
+}
+
 void print(char *s) {
 	while (*s != '\0') {
 		UART0_tx(*s);
@@ -59,6 +80,14 @@ void UART1_send_bytes(char *s, size_t size) {
 	char* end = s + size;
 	while (s < end) {
 		UART1_tx(*s);
+		s++;
+	}
+}
+
+void UART2_send_bytes(char *s, size_t size) {
+	char *end = s + size;
+	while (s < end) {
+		UART2_tx(*s);
 		s++;
 	}
 }
@@ -108,6 +137,11 @@ ISR(USART1_RX_vect) {
 	if (xHigherPriorityTaskWoken) {
 		portYIELD();
 	}
+}
+
+ISR(USART2_RX_vect) {
+	uint8_t c = UDR2;
+	BNO_buffer[buffer_index++] = c;
 }
 
 // Deprecated

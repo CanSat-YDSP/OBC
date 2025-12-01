@@ -18,6 +18,8 @@
 #define TX0 PE1
 
 extern QueueHandle_t uart1_rx_queue;
+volatile uint8_t BNO_buffer[20];
+extern volatile uint8_t buffer_index;
 
 void UART_init(uint16_t ubbr);
 void UART0_tx(uint8_t data);
@@ -32,5 +34,7 @@ void UART1_send_bytes(char *s, size_t size);
 void UART1_receive_bytes(uint8_t *buf);
 
 uint8_t UART1_is_ready();
+
+void UART2_send_bytes(char *s, size_t size);
 
 #endif /* UART_H_ */

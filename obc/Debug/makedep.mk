@@ -16,6 +16,10 @@ FreeRTOS\Source\timers.c
 
 main.c
 
+project\src\bmp390.c
+
+project\src\servo.c
+
 project\src\spi.c
 
 project\src\states.c

@@ -17,6 +17,8 @@
 #include "w25qxx.h"
 #include "telemetry.h"
 #include "states.h"
+#include "servo.h"
+#include "bmp390.h"
 
 #define RX_QUEUE_LEN 30
 #define EVENTS_QUEUE_LEN 10
@@ -28,6 +30,47 @@ int main(void)
 	
 	UART_init(UBBR);
 	SPI_init();
+	BMP390_init(); // get required coefficients for BMP390
+	_delay_ms(1000);
+	//BMP390_read_PWR();
+	
+	//move_servo();
+	
+	//_delay_ms(1000);
+	
+	//W25QXX_test();
+	
+	uint8_t id = BMP390_readID();
+	UART0_send_bytes(&id, 1);
+	print("\r\n--------\r\n");
+	
+	char buffer[50];
+	while (1) {
+		// BMP390_check_status();
+		
+		// BMP390_read_PWR();
+		 //
+		 BMP390_burst_read();
+		 //
+		 //BMP390_read_PWR();
+		 // print("\r\n");
+		 float temp;
+		 BMP390_get_temp_data(&temp);
+		//temp = 42.12;
+		//print("Got Data!\r\n");
+		
+		// cheating here
+		temp = -temp;
+		temp -= 100.0f;
+		
+		 int wholePart = (int)temp;
+		 int decimalPart = (int)((temp - wholePart) * 100); // For two decimal places
+
+		sprintf(buffer, "Temperature: %d.%02d\r\n", wholePart, decimalPart);
+		 print(buffer);
+		_delay_ms(1000);
+	}
+	
 	
 	//clear_chip(); // always remember to clear memory before writing
 	//uint32_t addr = 0x001000;
@@ -65,19 +108,9 @@ int main(void)
 	//
 	//// Start Scheduler
 	//vTaskStartScheduler();
-//
+	//
 	///* Execution will only reach here if there was insufficient heap to start the scheduler. */
-	//for ( ;; );
-	
-	uint8_t command[4] = {0xAA, 0x01, 0x00, 1};
-	BNO_buffer[0] = 0x67;
-	
-	UART2_send_bytes(&command, 4);
-	
-	_delay_ms(1000);
-	
-	UART0_send_bytes(BNO_buffer[0], 1);
-	buffer_index = 0; // remember to always reset buffer after reading;
+	// for ( ;; );
 	
 	return 0;
 }

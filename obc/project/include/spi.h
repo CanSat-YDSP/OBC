@@ -5,13 +5,14 @@
  *  Author: Yu Heng
  */ 
 
-
 #ifndef SPI_H_
 #define SPI_H_
 
 #include <avr/io.h>
 
 // defining port macros
+#define SS_W25Qxx PA3
+#define SS_BMP390 PA4
 #define SS PB0
 #define SCK PB1
 #define MOSI PB2
@@ -19,6 +20,9 @@
 
 #define DDR_SPI DDRB
 #define PORT_SPI PORTB
+
+#define DDR_SS DDRA
+#define PORT_SS PORTA
 
 void SPI_init(void);
 void SPI_select(uint8_t addr);

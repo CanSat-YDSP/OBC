@@ -31,7 +31,8 @@ typedef enum {
 	MAX_HEIGHT_REACHED,
 	RELEASE_HEIGHT_REACHED,
 	IS_LANDED,
-	ENTER_SIM
+	ENTER_SIM,
+	ENTER_CALIBRATION
 } CanSatEvents_t;
 
 typedef void (*HandlerFunc)(); // typedef for function table
@@ -42,6 +43,7 @@ extern void descent_hander();
 extern void release_handler();
 extern void landing_handler();
 extern void sim_handler();
+extern void calibration_handler();
 
 extern HandlerFunc functionTable[];
 extern SemaphoreHandle_t stateMutex;

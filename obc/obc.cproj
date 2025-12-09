@@ -199,7 +199,16 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="project\include\bmp390.h">
+    <Compile Include="project\include\BMP390.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="project\include\BNO055.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="project\include\buzzer.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="project\include\i2c.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="project\include\servo.h">
@@ -223,7 +232,16 @@
     <Compile Include="project\include\w25qxx.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="project\src\bmp390.c">
+    <Compile Include="project\src\BMP390.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="project\src\BNO055.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="project\src\buzzer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="project\src\i2c.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="project\src\servo.c">

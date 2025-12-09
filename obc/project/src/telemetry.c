@@ -56,6 +56,47 @@ uint8_t checksum_calculator(TelemetryData *tm_data)
 	{
 		checksum ^= *((uint8_t *)(&(tm_data->pressure)) + i);
 	}
+	
+	for (size_t i = 0; i < sizeof(tm_data->temperature); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->temperature)) + i);
+	}
+	for (size_t i = 0; i < sizeof(tm_data->acc_x); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->acc_x)) + i);
+	}
+	for (size_t i = 0; i < sizeof(tm_data->acc_y); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->acc_y)) + i);
+	}
+	for (size_t i = 0; i < sizeof(tm_data->acc_z); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->acc_z)) + i);
+	}
+	for (size_t i = 0; i < sizeof(tm_data->mag_x); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->mag_x)) + i);
+	}
+	for (size_t i = 0; i < sizeof(tm_data->mag_y); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->mag_y)) + i);
+	}
+	for (size_t i = 0; i < sizeof(tm_data->mag_z); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->mag_z)) + i);
+	}
+	for (size_t i = 0; i < sizeof(tm_data->gyr_x); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->gyr_x)) + i);
+	}
+	for (size_t i = 0; i < sizeof(tm_data->gyr_y); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->gyr_y)) + i);
+	}
+	for (size_t i = 0; i < sizeof(tm_data->gyr_z); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->gyr_z)) + i);
+	}
 	// ==============================================
 
 	return checksum;
@@ -81,6 +122,19 @@ void send_to_ground(void *pvParameters)
 		UART1_send_bytes(&(universal_telemetry.stage), sizeof(universal_telemetry.stage));
 		UART1_send_bytes(&(universal_telemetry.altitude), sizeof(universal_telemetry.altitude));
 		UART1_send_bytes(&(universal_telemetry.pressure), sizeof(universal_telemetry.pressure));
+		UART1_send_bytes(&(universal_telemetry.temperature), sizeof(universal_telemetry.temperature));
+		
+		UART1_send_bytes(&(universal_telemetry.acc_x), sizeof(universal_telemetry.acc_x));
+		UART1_send_bytes(&(universal_telemetry.acc_y), sizeof(universal_telemetry.acc_y));
+		UART1_send_bytes(&(universal_telemetry.acc_z), sizeof(universal_telemetry.acc_z));
+
+		UART1_send_bytes(&(universal_telemetry.mag_x), sizeof(universal_telemetry.mag_x));
+		UART1_send_bytes(&(universal_telemetry.mag_y), sizeof(universal_telemetry.mag_y));
+		UART1_send_bytes(&(universal_telemetry.mag_z), sizeof(universal_telemetry.mag_z));
+
+		UART1_send_bytes(&(universal_telemetry.gyr_x), sizeof(universal_telemetry.gyr_x));
+		UART1_send_bytes(&(universal_telemetry.gyr_y), sizeof(universal_telemetry.gyr_y));
+		UART1_send_bytes(&(universal_telemetry.gyr_z), sizeof(universal_telemetry.gyr_z));
 		// ==============================================
 
 		UART1_send_bytes(&(universal_telemetry.checksum), sizeof(universal_telemetry.checksum));
@@ -118,6 +172,10 @@ void receive_from_ground(void *pvParameters) {
 				break;
 			case 0x03:
 				event = ENTER_SIM;
+				xQueueSend(events_queue, &event, portMAX_DELAY);
+				break;
+			case 0x04:
+				event = ENTER_CALIBRATION;
 				xQueueSend(events_queue, &event, portMAX_DELAY);
 				break;
 			default:

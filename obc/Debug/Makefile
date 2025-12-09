@@ -57,7 +57,10 @@ C_SRCS +=  \
 ../FreeRTOS/Source/tasks.c \
 ../FreeRTOS/Source/timers.c \
 ../main.c \
-../project/src/bmp390.c \
+../project/src/BMP390.c \
+../project/src/BNO055.c \
+../project/src/buzzer.c \
+../project/src/i2c.c \
 ../project/src/servo.c \
 ../project/src/spi.c \
 ../project/src/states.c \
@@ -81,7 +84,10 @@ FreeRTOS/Source/queue.o \
 FreeRTOS/Source/tasks.o \
 FreeRTOS/Source/timers.o \
 main.o \
-project/src/bmp390.o \
+project/src/BMP390.o \
+project/src/BNO055.o \
+project/src/buzzer.o \
+project/src/i2c.o \
 project/src/servo.o \
 project/src/spi.o \
 project/src/states.o \
@@ -98,7 +104,10 @@ FreeRTOS/Source/queue.o \
 FreeRTOS/Source/tasks.o \
 FreeRTOS/Source/timers.o \
 main.o \
-project/src/bmp390.o \
+project/src/BMP390.o \
+project/src/BNO055.o \
+project/src/buzzer.o \
+project/src/i2c.o \
 project/src/servo.o \
 project/src/spi.o \
 project/src/states.o \
@@ -115,7 +124,10 @@ FreeRTOS/Source/queue.d \
 FreeRTOS/Source/tasks.d \
 FreeRTOS/Source/timers.d \
 main.d \
-project/src/bmp390.d \
+project/src/BMP390.d \
+project/src/BNO055.d \
+project/src/buzzer.d \
+project/src/i2c.d \
 project/src/servo.d \
 project/src/spi.d \
 project/src/states.d \
@@ -132,7 +144,10 @@ FreeRTOS/Source/queue.d \
 FreeRTOS/Source/tasks.d \
 FreeRTOS/Source/timers.d \
 main.d \
-project/src/bmp390.d \
+project/src/BMP390.d \
+project/src/BNO055.d \
+project/src/buzzer.d \
+project/src/i2c.d \
 project/src/servo.d \
 project/src/spi.d \
 project/src/states.d \
@@ -204,7 +219,28 @@ FreeRTOS/Source/timers.o: ../FreeRTOS/Source/timers.c
 	@echo Finished building: $<
 	
 
-project/src/bmp390.o: ../project/src/bmp390.c
+project/src/BMP390.o: ../project/src/BMP390.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+project/src/BNO055.o: ../project/src/BNO055.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+project/src/buzzer.o: ../project/src/buzzer.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+project/src/i2c.o: ../project/src/i2c.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

@@ -16,7 +16,13 @@ FreeRTOS\Source\timers.c
 
 main.c
 
-project\src\bmp390.c
+project\src\BMP390.c
+
+project\src\BNO055.c
+
+project\src\buzzer.c
+
+project\src\i2c.c
 
 project\src\servo.c
 

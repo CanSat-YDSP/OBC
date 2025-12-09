@@ -26,6 +26,16 @@ typedef struct {
 	CanSatStage_t stage;
 	float altitude;
 	float pressure;
+	float temperature;
+	float acc_x;
+	float acc_y;
+	float acc_z;
+	float mag_x;
+	float mag_y;
+	float mag_z;
+	float gyr_x;
+	float gyr_y;
+	float gyr_z;
 	// ==============================================
 	uint8_t checksum;
 } TelemetryData;

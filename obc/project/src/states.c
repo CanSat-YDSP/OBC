@@ -6,11 +6,13 @@
  */
 
 #include <FreeRTOS.h>
+#include <util/delay.h>
 #include "semphr.h"
 
 #include "telemetry.h"
 #include "uart.h"
 #include "tasks.h"
+#include "servo.h"
 
 SemaphoreHandle_t stateMutex;
 TelemetryData universal_telemetry;
@@ -24,7 +26,8 @@ HandlerFunc functionTable[] = {
 	descent_hander,
 	release_handler,
 	landing_handler,
-	sim_handler};
+	sim_handler,
+	calibration_handler};
 
 void ascent_handler() {
 	xSemaphoreTake(stateMutex, portMAX_DELAY);
@@ -42,6 +45,7 @@ void descent_hander() {
 		print("Falling!\r\n");
 		// set deploy height to ~75% height reached
 		deploy_height = 0.75 * universal_telemetry.altitude;
+		// print("deploy_height established!\r\n");
 	}
 	xSemaphoreGive(stateMutex);
 }
@@ -49,8 +53,12 @@ void descent_hander() {
 void release_handler() {
 	xSemaphoreTake(stateMutex, portMAX_DELAY);
 	if (universal_telemetry.stage == DESCENT) {
+		print("release handler\r\n");
 		universal_telemetry.stage = PROBE_RELEASE;
 		print("Probe Released!\r\n");
+		move_servo();
+		_delay_ms(1000);
+		stop_servo();
 	}
 	xSemaphoreGive(stateMutex);;
 }
@@ -60,8 +68,8 @@ void landing_handler() {
 	if (universal_telemetry.stage == PROBE_RELEASE) {
 		universal_telemetry.stage = LANDED;
 		print("Landed!\r\n");
-		DDRK |= (1<<PINK1);
-		PORTK |= (1<<PINK1);
+		DDRL |= (1<<PL5);
+		PORTL |= (1<<PL5);
 	}
 	xSemaphoreGive(stateMutex);;
 }
@@ -70,14 +78,21 @@ void sim_handler() {
 	xSemaphoreTake(stateMutex, portMAX_DELAY);
 	if (universal_telemetry.mode != MODE_SIMULATION) {
 		universal_telemetry.mode = MODE_SIMULATION;
-		extern void simulated_data_reading (void *pvParameters);
-		xTaskCreate(simulated_data_reading, "Task to simulate reading data from W25Q32, will include other sensors", 100, NULL, 2, NULL);
+		// extern void simulated_data_reading (void *pvParameters);
+		// xTaskCreate(simulated_data_reading, "Task to simulate reading data from W25Q32, will include other sensors", 100, NULL, 2, NULL);
 	}
 	xSemaphoreGive(stateMutex);
 }
 
+void calibration_handler() {
+	float pressure, temperature;
+	BMP390_get_readings(&pressure, &temperature);
+	old_altitude = 0;
+	calibrated_altitude = 44330.0f * (1.0f-powf(pressure/101325.0f, 0.1903f));
+}
+
 void state_manager(void *pvParameters) {
-	universal_telemetry.mode = MODE_FLIGHT; // hard code until all sensors come
+	universal_telemetry.mode = MODE_FLIGHT; // default: MODE_FLIGHT
 	universal_telemetry.stage = LAUNCH_PAD;		// cansat starts off on ground
 
 	CanSatEvents_t current_event;

@@ -15,5 +15,7 @@ void task_led_blinky (void* pvParameters);
 void simulated_data_reading (void *pvParameters);
 
 extern QueueHandle_t simulated_pressure_queue;
+extern float old_altitude;
+extern float calibrated_altitude;
 
 #endif /* BLINKY_TASK_H_ */

@@ -10,5 +10,7 @@
 #define SERVO_H_
 
 void move_servo();
+void reset_servo();
+void stop_servo();
 
 #endif /* SERVO_H_ */

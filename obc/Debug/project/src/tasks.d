@@ -20,11 +20,15 @@ project/src/tasks.d project/src/tasks.o: ../project/src/tasks.c \
  ../FreeRTOS/Source/portable/WinAVR/ATmega2560/portmacro.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  ../FreeRTOS/Source/include/mpu_wrappers.h \
- ../FreeRTOS/Source/include/queue.h ../FreeRTOS/Source/include/task.h \
- ../FreeRTOS/Source/include/list.h ../project/include/w25qxx.h \
- ../project/include/telemetry.h ../project/include/states.h \
- ../FreeRTOS/Source/include/semphr.h ../FreeRTOS/Source/include/queue.h \
- ../project/include/states.h ../project/include/uart.h
+ ../FreeRTOS/Source/include/queue.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
+ ../FreeRTOS/Source/include/task.h ../FreeRTOS/Source/include/list.h \
+ ../project/include/w25qxx.h ../project/include/telemetry.h \
+ ../project/include/states.h ../FreeRTOS/Source/include/semphr.h \
+ ../FreeRTOS/Source/include/queue.h ../project/include/states.h \
+ ../project/include/uart.h ../project/include/BMP390.h \
+ ../project/include/BNO055.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
 
@@ -72,6 +76,10 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 ../FreeRTOS/Source/include/queue.h:
 
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h:
+
 ../FreeRTOS/Source/include/task.h:
 
 ../FreeRTOS/Source/include/list.h:
@@ -89,3 +97,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../project/include/states.h:
 
 ../project/include/uart.h:
+
+../project/include/BMP390.h:
+
+../project/include/BNO055.h:

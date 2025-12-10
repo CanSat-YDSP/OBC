@@ -36,5 +36,5 @@ project\src\telemetry.c
 
 project\src\uart.c
 
-project\src\w25qxx.c
+project\src\W25Qxx.c
 

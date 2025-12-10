@@ -2,7 +2,7 @@
  * buzzer.h
  *
  * Created: 08.12.2025 12:46:42
- *  Author: ngyuh
+ *  Author: Yu Heng
  */ 
 
 

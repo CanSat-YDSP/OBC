@@ -2,7 +2,7 @@
  * i2c.h
  *
  * Created: 08.12.2025 13:57:42
- *  Author: ngyuh
+ *  Author: Yu Heng
  */ 
 
 

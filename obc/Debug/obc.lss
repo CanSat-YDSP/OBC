@@ -3805,7 +3805,6 @@ void component_tests() {
 int main(void)
 {
 	sei();
-	
 	UART_init(UBBR);
     19b6:	90 e0       	ldi	r25, 0x00	; 0
     19b8:	0e 94 e5 18 	call	0x31ca	; 0x31ca <UART_init>
@@ -3828,10 +3827,8 @@ int main(void)
     19d4:	00 00       	nop
     19d6:	88 e3       	ldi	r24, 0x38	; 56
     19d8:	92 e0       	ldi	r25, 0x02	; 2
-		//response = read_data(addr + i);
-		//UART0_send_bytes(&response, 1);
-	//}
 	
+	_delay_ms(1000);
 	
 	print("CatSat\r\n");
     19da:	0e 94 07 19 	call	0x320e	; 0x320e <print>
@@ -7501,6 +7498,7 @@ void receive_from_ground(void *pvParameters) {
     3162:	0e 94 6a 05 	call	0xad4	; 0xad4 <xQueueGenericSend>
 				break;
     3166:	0e c0       	rjmp	.+28     	; 0x3184 <receive_from_ground+0x104>
+			case 0x05:
 			default:
 				print("Something went wrong!\r\n");
     3168:	8c e5       	ldi	r24, 0x5C	; 92
@@ -7553,9 +7551,9 @@ void receive_from_ground(void *pvParameters) {
     31b8:	0e 94 6a 05 	call	0xad4	; 0xad4 <xQueueGenericSend>
 		}
 
-		vTaskDelay(pdMS_TO_TICKS(1000));
-    31bc:	68 ee       	ldi	r22, 0xE8	; 232
-    31be:	73 e0       	ldi	r23, 0x03	; 3
+		vTaskDelay(pdMS_TO_TICKS(500));
+    31bc:	64 ef       	ldi	r22, 0xF4	; 244
+    31be:	71 e0       	ldi	r23, 0x01	; 1
     31c0:	80 e0       	ldi	r24, 0x00	; 0
     31c2:	90 e0       	ldi	r25, 0x00	; 0
     31c4:	0e 94 54 0a 	call	0x14a8	; 0x14a8 <vTaskDelay>

@@ -2,7 +2,7 @@
  * BNO055.c
  *
  * Created: 08.12.2025 15:16:21
- *  Author: ngyuh
+ *  Author: Yu Heng
  */ 
 
 #include <avr/io.h>

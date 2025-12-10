@@ -94,20 +94,6 @@ void UART2_send_bytes(char *s, size_t size) {
 
 // need find a way to drop command if no 0x0A
 void UART1_receive_bytes(uint8_t *buf) {
-	//if (UART1_rx() == 0xFF) {
-		//int i = 0;
-		//char c = UART1_rx();
-		//UART0_send_bytes(c, 1);
-		//while (c != 0x0A) {
-			//UART0_send_bytes(&c, 1);
-			//buf[i] = c;
-			//c = UART1_rx();
-			//UART0_send_bytes(&c, 1);
-			//i++;
-		//}
-		//UART0_tx(0xFF);
-		//buf[i] = '\0';
-	//}
 	uint8_t c;
 	size_t i = 0;
 

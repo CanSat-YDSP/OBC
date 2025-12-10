@@ -205,6 +205,7 @@ void receive_from_ground(void *pvParameters) {
 				event = ENTER_CALIBRATION;
 				xQueueSend(events_queue, &event, portMAX_DELAY);
 				break;
+			case 0x05:
 			default:
 				print("Something went wrong!\r\n");
 				UART0_send_bytes(buf, 20);
@@ -222,6 +223,6 @@ void receive_from_ground(void *pvParameters) {
 			xSemaphoreGive(stateMutex);
 		}
 
-		vTaskDelay(pdMS_TO_TICKS(1000));
+		vTaskDelay(pdMS_TO_TICKS(500));
 	}
 }

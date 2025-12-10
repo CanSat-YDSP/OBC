@@ -1,5 +1,5 @@
 /*
- * w25qxx.c
+ * W25Qxx.c
  *
  * Created: 20/10/2025 1:07:14 pm
  *  Author: Yu Heng

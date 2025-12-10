@@ -1,4 +1,4 @@
-project/src/w25qxx.d project/src/w25qxx.o: ../project/src/w25qxx.c \
+project/src/W25Qxx.d project/src/W25Qxx.o: ../project/src/W25Qxx.c \
  ../project/include/w25qxx.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \

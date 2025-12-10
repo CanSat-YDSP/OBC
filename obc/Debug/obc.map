@@ -271,21 +271,21 @@ Discarded input sections
                 0x00000000       0x28 project/src/uart.o
  .text.UART1_is_ready
                 0x00000000        0x8 project/src/uart.o
- .text          0x00000000        0x0 project/src/w25qxx.o
- .data          0x00000000        0x0 project/src/w25qxx.o
- .bss           0x00000000        0x0 project/src/w25qxx.o
+ .text          0x00000000        0x0 project/src/W25Qxx.o
+ .data          0x00000000        0x0 project/src/W25Qxx.o
+ .bss           0x00000000        0x0 project/src/W25Qxx.o
  .text.read_data
-                0x00000000       0x42 project/src/w25qxx.o
+                0x00000000       0x42 project/src/W25Qxx.o
  .text.release_power_down
-                0x00000000       0x14 project/src/w25qxx.o
+                0x00000000       0x14 project/src/W25Qxx.o
  .text.read_status
-                0x00000000       0x22 project/src/w25qxx.o
+                0x00000000       0x22 project/src/W25Qxx.o
  .text.write_enable
-                0x00000000       0x1c project/src/w25qxx.o
+                0x00000000       0x1c project/src/W25Qxx.o
  .text.write_page
-                0x00000000       0x72 project/src/w25qxx.o
+                0x00000000       0x72 project/src/W25Qxx.o
  .text.clear_chip
-                0x00000000       0x20 project/src/w25qxx.o
+                0x00000000       0x20 project/src/W25Qxx.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(addsf3.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(addsf3.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(addsf3.o)
@@ -512,7 +512,7 @@ LOAD project/src/states.o
 LOAD project/src/tasks.o
 LOAD project/src/telemetry.o
 LOAD project/src/uart.o
-LOAD project/src/w25qxx.o
+LOAD project/src/W25Qxx.o
 START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a
 END GROUP
@@ -1061,10 +1061,10 @@ END GROUP
                 0x000033a6       0x26 project/src/uart.o
                 0x000033a6                UART0_send_bytes
  .text.W25QXX_readID
-                0x000033cc       0x42 project/src/w25qxx.o
+                0x000033cc       0x42 project/src/W25Qxx.o
                 0x000033cc                W25QXX_readID
  .text.W25QXX_test
-                0x0000340e       0x32 project/src/w25qxx.o
+                0x0000340e       0x32 project/src/W25Qxx.o
                 0x0000340e                W25QXX_test
  .text.avr-libc.fplib
                 0x00003440        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(addsf3.o)
@@ -1397,7 +1397,7 @@ END GROUP
  .comment       0x00000030       0x31 project/src/tasks.o
  .comment       0x00000030       0x31 project/src/telemetry.o
  .comment       0x00000030       0x31 project/src/uart.o
- .comment       0x00000030       0x31 project/src/w25qxx.o
+ .comment       0x00000030       0x31 project/src/W25Qxx.o
  .comment       0x00000030       0x31 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(sprintf.o)
  .comment       0x00000030       0x2c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(vfprintf_std.o)
                                  0x2d (size before relaxing)
@@ -1458,7 +1458,7 @@ END GROUP
  .debug_aranges
                 0x00000628       0x98 project/src/uart.o
  .debug_aranges
-                0x000006c0       0x58 project/src/w25qxx.o
+                0x000006c0       0x58 project/src/W25Qxx.o
 
 .debug_pubnames
  *(.debug_pubnames)
@@ -1482,7 +1482,7 @@ END GROUP
  .debug_info    0x00006aa6      0x7d1 project/src/tasks.o
  .debug_info    0x00007277      0xae5 project/src/telemetry.o
  .debug_info    0x00007d5c      0x4bc project/src/uart.o
- .debug_info    0x00008218      0x548 project/src/w25qxx.o
+ .debug_info    0x00008218      0x548 project/src/W25Qxx.o
 
 .debug_abbrev   0x00000000     0x245e
  *(.debug_abbrev)
@@ -1503,7 +1503,7 @@ END GROUP
  .debug_abbrev  0x00001d3c      0x240 project/src/tasks.o
  .debug_abbrev  0x00001f7c      0x1d5 project/src/telemetry.o
  .debug_abbrev  0x00002151      0x193 project/src/uart.o
- .debug_abbrev  0x000022e4      0x17a project/src/w25qxx.o
+ .debug_abbrev  0x000022e4      0x17a project/src/W25Qxx.o
 
 .debug_line     0x00000000     0x4aeb
  *(.debug_line .debug_line.* .debug_line_end)
@@ -1524,7 +1524,7 @@ END GROUP
  .debug_line    0x00003a9c      0x345 project/src/tasks.o
  .debug_line    0x00003de1      0x600 project/src/telemetry.o
  .debug_line    0x000043e1      0x415 project/src/uart.o
- .debug_line    0x000047f6      0x2f5 project/src/w25qxx.o
+ .debug_line    0x000047f6      0x2f5 project/src/W25Qxx.o
 
 .debug_frame    0x00000000     0x16ac
  *(.debug_frame)
@@ -1544,7 +1544,7 @@ END GROUP
  .debug_frame   0x000012b0       0x88 project/src/tasks.o
  .debug_frame   0x00001338       0x74 project/src/telemetry.o
  .debug_frame   0x000013ac      0x200 project/src/uart.o
- .debug_frame   0x000015ac      0x100 project/src/w25qxx.o
+ .debug_frame   0x000015ac      0x100 project/src/W25Qxx.o
 
 .debug_str      0x00000000     0x21ad
  *(.debug_str)
@@ -1581,7 +1581,7 @@ END GROUP
                                 0x497 (size before relaxing)
  .debug_str     0x000020a8       0xa1 project/src/uart.o
                                 0x306 (size before relaxing)
- .debug_str     0x00002149       0x64 project/src/w25qxx.o
+ .debug_str     0x00002149       0x64 project/src/W25Qxx.o
                                 0x245 (size before relaxing)
 
 .debug_loc      0x00000000     0x6ad4
@@ -1600,7 +1600,7 @@ END GROUP
  .debug_loc     0x00005c65      0x1dc project/src/tasks.o
  .debug_loc     0x00005e41      0x3a3 project/src/telemetry.o
  .debug_loc     0x000061e4      0x59b project/src/uart.o
- .debug_loc     0x0000677f      0x355 project/src/w25qxx.o
+ .debug_loc     0x0000677f      0x355 project/src/W25Qxx.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -1638,7 +1638,7 @@ END GROUP
  .debug_ranges  0x00000570       0x28 project/src/tasks.o
  .debug_ranges  0x00000598       0x58 project/src/telemetry.o
  .debug_ranges  0x000005f0       0x88 project/src/uart.o
- .debug_ranges  0x00000678       0x48 project/src/w25qxx.o
+ .debug_ranges  0x00000678       0x48 project/src/W25Qxx.o
 
 .debug_macro
  *(.debug_macro)

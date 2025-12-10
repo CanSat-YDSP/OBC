@@ -2,7 +2,7 @@
  * BNO055.h
  *
  * Created: 08.12.2025 15:16:30
- *  Author: ngyuh
+ *  Author: Yu Heng
  */ 
 
 

@@ -2,7 +2,7 @@
  * BMP390.h
  *
  * Created: 04.12.2025 14:41:17
- *  Author: ngyuh
+ *  Author: Yu Heng
  */ 
 
 

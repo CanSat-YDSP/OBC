@@ -2,7 +2,7 @@
  * BMP390.c
  *
  * Created: 04.12.2025 14:41:31
- *  Author: ngyuh
+ *  Author: Yu Heng
  */ 
 #include <stddef.h>
 #include "spi.h"

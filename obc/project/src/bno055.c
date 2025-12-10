@@ -75,9 +75,13 @@ void BNO055_read_acc(float *accel) {
 	partial_y = (int16_t)((data_buf[3] << 8) | data_buf[2]);
 	partial_z = (int16_t)((data_buf[5] << 8) | data_buf[4]);
 	
-	accel[0] = (float)(partial_x/ACC_CAL);
-	accel[1] = (float)(partial_y/ACC_CAL);
-	accel[2] = (float)(partial_z/ACC_CAL);
+	accel[0] = (float)partial_x/ACC_CAL;
+	accel[1] = (float)partial_y/ACC_CAL;
+	accel[2] = (float)partial_z/ACC_CAL;
+	
+	char buf[30];
+	sprintf(buf, "check acc_z: %d\r\n", (int)(accel[2]*100));
+	print(buf);
 }
 
 void BNO055_read_mag(float *mag) {
@@ -90,9 +94,9 @@ void BNO055_read_mag(float *mag) {
 	partial_y = (int16_t)((data_buf[3] << 8) | data_buf[2]);
 	partial_z = (int16_t)((data_buf[5] << 8) | data_buf[4]);
 	
-	mag[0] = (float)(partial_x/MAG_CAL);
-	mag[1] = (float)(partial_y/MAG_CAL);
-	mag[2] = (float)(partial_z/MAG_CAL);
+	mag[0] = (float)partial_x/MAG_CAL;
+	mag[1] = (float)partial_y/MAG_CAL;
+	mag[2] = (float)partial_z/MAG_CAL;
 }
 
 void BNO055_read_gyr(float *gyr) {
@@ -105,7 +109,7 @@ void BNO055_read_gyr(float *gyr) {
 	partial_y = (int16_t)((data_buf[3] << 8) | data_buf[2]);
 	partial_z = (int16_t)((data_buf[5] << 8) | data_buf[4]);
 	
-	gyr[0] = (float)(partial_x/GYR_CAL);
-	gyr[1] = (float)(partial_y/GYR_CAL);
-	gyr[2] = (float)(partial_z/GYR_CAL);
+	gyr[0] = (float)partial_x/GYR_CAL;
+	gyr[1] = (float)partial_y/GYR_CAL;
+	gyr[2] = (float)partial_z/GYR_CAL;
 }

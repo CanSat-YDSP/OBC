@@ -28,7 +28,8 @@ main.d main.o: .././main.c ../project/include/tasks.h \
  ../project/include/uart.h ../project/include/spi.h \
  ../project/include/w25qxx.h ../project/include/telemetry.h \
  ../project/include/states.h ../project/include/states.h \
- ../project/include/servo.h ../project/include/bmp390.h
+ ../project/include/servo.h ../project/include/BMP390.h \
+ ../project/include/BNO055.h
 
 ../project/include/tasks.h:
 
@@ -102,4 +103,6 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 ../project/include/servo.h:
 
-../project/include/bmp390.h:
+../project/include/BMP390.h:
+
+../project/include/BNO055.h:

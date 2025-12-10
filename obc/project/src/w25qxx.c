@@ -21,9 +21,9 @@ void W25QXX_readID(uint8_t* mfr, uint8_t* memtype, uint8_t* cap) {
 uint8_t W25QXX_test() {
 	uint8_t mfr, memtype, cap;
 	W25QXX_readID(&mfr, &memtype, &cap);
-	 char buffer[30];
-	 sprintf(buffer, "JEDEC ID: %x %x %x", mfr, memtype, cap);
-	 print(buffer);
+	//char buffer[30];
+	//sprintf(buffer, "JEDEC ID: %x %x %x", mfr, memtype, cap);
+	//print(buffer);
 	
 	return (mfr == 0xEF);
 }

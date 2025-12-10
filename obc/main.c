@@ -18,7 +18,8 @@
 #include "telemetry.h"
 #include "states.h"
 #include "servo.h"
-#include "bmp390.h"
+#include "BMP390.h"
+#include "BNO055.h"
 
 #define RX_QUEUE_LEN 30
 #define EVENTS_QUEUE_LEN 10
@@ -34,8 +35,8 @@ void component_tests() {
 	sprintf(output, "BMP390: %d\r\n", BMP390_test());
 	print(output);
 	// BNO055
-	//sprintf(output, "BNO055: %d\r\n", BNO055_test());
-	//print(output);
+	sprintf(output, "BNO055: %d\r\n", BNO055_test());
+	print(output);
 	
 	// servo and buzzer
 	move_servo();
@@ -59,8 +60,9 @@ int main(void)
 	
 	UART_init(UBBR);
 	SPI_init();
-	// i2c_init();
+	i2c_init();
 	BMP390_init(); // get required coefficients for BMP390
+	BNO055_init();
 	_delay_ms(1000);
 	
 	//clear_chip(); // always remember to clear memory before writing

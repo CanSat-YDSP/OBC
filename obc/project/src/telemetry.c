@@ -97,6 +97,10 @@ uint8_t checksum_calculator(TelemetryData *tm_data)
 	{
 		checksum ^= *((uint8_t *)(&(tm_data->gyr_z)) + i);
 	}
+	for (size_t i = 0; i < sizeof(tm_data->cmd_echo); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->cmd_echo)) + i);
+	}
 	// ==============================================
 
 	return checksum;
@@ -113,8 +117,29 @@ void send_to_ground(void *pvParameters)
 		universal_telemetry.packet_count = packet_count++;
 		// calculate checksum
 		universal_telemetry.checksum = checksum_calculator(&universal_telemetry);
-
+		
 		UART1_send_bytes(&start, 1);
+		
+		uint8_t packet_size =
+		sizeof(universal_telemetry.packet_count)
+		+ sizeof(universal_telemetry.mode)
+		+ sizeof(universal_telemetry.stage)
+		+ sizeof(universal_telemetry.altitude)
+		+ sizeof(universal_telemetry.pressure)
+		+ sizeof(universal_telemetry.temperature)
+		+ sizeof(universal_telemetry.acc_x)
+		+ sizeof(universal_telemetry.acc_y)
+		+ sizeof(universal_telemetry.acc_z)
+		+ sizeof(universal_telemetry.mag_x)
+		+ sizeof(universal_telemetry.mag_y)
+		+ sizeof(universal_telemetry.mag_z)
+		+ sizeof(universal_telemetry.gyr_x)
+		+ sizeof(universal_telemetry.gyr_y)
+		+ sizeof(universal_telemetry.gyr_z)
+		+ sizeof(universal_telemetry.checksum)
+		+ sizeof(universal_telemetry.cmd_echo);
+		
+		UART1_send_bytes(&packet_size, 1);
 
 		// =============== For Automation ===============
 		UART1_send_bytes(&(universal_telemetry.packet_count), sizeof(universal_telemetry.packet_count));
@@ -135,10 +160,11 @@ void send_to_ground(void *pvParameters)
 		UART1_send_bytes(&(universal_telemetry.gyr_x), sizeof(universal_telemetry.gyr_x));
 		UART1_send_bytes(&(universal_telemetry.gyr_y), sizeof(universal_telemetry.gyr_y));
 		UART1_send_bytes(&(universal_telemetry.gyr_z), sizeof(universal_telemetry.gyr_z));
+		
+		UART1_send_bytes(&(universal_telemetry.cmd_echo), sizeof(universal_telemetry.cmd_echo));
 		// ==============================================
 
 		UART1_send_bytes(&(universal_telemetry.checksum), sizeof(universal_telemetry.checksum));
-		UART1_send_bytes(&end, 1);
 
 		xSemaphoreGive(stateMutex);
 
@@ -156,6 +182,7 @@ void receive_from_ground(void *pvParameters) {
 
 		size_t command_length = buf[0];
 		uint8_t command_id = buf[1];
+		uint8_t command_echo = command_id;
 		CanSatEvents_t event;
 		
 		// confirm validity of command packet
@@ -181,11 +208,18 @@ void receive_from_ground(void *pvParameters) {
 			default:
 				print("Something went wrong!\r\n");
 				UART0_send_bytes(buf, 20);
+				command_echo = 0xFF;
 				break;
 			}
 		}
 		else {
 			print("Dropped an invalid packet.\r\n");
+		}
+		
+		if (command_echo != 0xFF) {
+			xSemaphoreTake(stateMutex, portMAX_DELAY);
+			universal_telemetry.cmd_echo = command_echo;
+			xSemaphoreGive(stateMutex);
 		}
 
 		vTaskDelay(pdMS_TO_TICKS(1000));

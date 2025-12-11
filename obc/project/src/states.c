@@ -88,7 +88,7 @@ void calibration_handler() {
 	float pressure, temperature;
 	BMP390_get_readings(&pressure, &temperature);
 	old_altitude = 0;
-	calibrated_altitude = 44330.0f * (1.0f-powf(pressure/101325.0f, 0.1903f));
+	calibrated_altitude = 44330.0f * (1.0f-powf(pressure/CURRENT_PRESSURE, 0.1903f));
 }
 
 void state_manager(void *pvParameters) {

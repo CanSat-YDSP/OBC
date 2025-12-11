@@ -74,23 +74,18 @@ void data_reading (void *pvParameters) {
 		}
 			
 		universal_telemetry.pressure = pressure;
-		universal_telemetry.altitude = 44330.0f * (1.0f-powf(pressure/101325.0f, 0.1903f));
+		universal_telemetry.altitude = 44330.0f * (1.0f-powf(pressure/CURRENT_PRESSURE, 0.1903f));
 		universal_telemetry.altitude -= calibrated_altitude;
 		
 		universal_telemetry.temperature = temperature;
 		
-		BNO055_read_acc(acc);
-		BNO055_read_mag(mag);
-		BNO055_read_gyr(gyr);
+		//BNO055_read_acc(acc);
+		//BNO055_read_mag(mag);
+		//BNO055_read_gyr(gyr);
 		
 		universal_telemetry.acc_x = acc[0];
 		universal_telemetry.acc_y = acc[1];
 		universal_telemetry.acc_z = acc[2];
-		
-		//char buf[30];
-		//sprintf(buf, "check acc_z: %d\r\n", (int)universal_telemetry.acc_z);
-		//print(buf);
-		
 		
 		universal_telemetry.mag_x = mag[0];
 		universal_telemetry.mag_y = mag[1];
@@ -101,7 +96,7 @@ void data_reading (void *pvParameters) {
 		universal_telemetry.gyr_z = gyr[2];
 			
 		char altitude_text[20];
-		sprintf(altitude_text, "Altitude: %d\r\n", (int)universal_telemetry.altitude);
+		sprintf(altitude_text, "Altitude: %d\r\n", (int)(universal_telemetry.altitude * 100));
 		print(altitude_text);
 			
 		// send events if altitude is high enough

@@ -79,9 +79,9 @@ void BNO055_read_acc(float *accel) {
 	accel[1] = (float)partial_y/ACC_CAL;
 	accel[2] = (float)partial_z/ACC_CAL;
 	
-	char buf[30];
-	sprintf(buf, "check acc_z: %d\r\n", (int)(accel[2]*100));
-	print(buf);
+	//char buf[30];
+	//sprintf(buf, "check acc_z: %d\r\n", (int)(accel[2]*100));
+	//print(buf);
 }
 
 void BNO055_read_mag(float *mag) {

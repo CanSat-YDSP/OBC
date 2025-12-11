@@ -92,23 +92,23 @@ void UART2_send_bytes(char *s, size_t size) {
 	}
 }
 
-// need find a way to drop command if no 0x0A
 void UART1_receive_bytes(uint8_t *buf) {
 	uint8_t c;
 	size_t i = 0;
 
 	while (1) {
+		// Wait for the start byte 0xFF
 		if (xQueueReceive(uart1_rx_queue, &c, portMAX_DELAY) == pdTRUE) {
 			if (c == 0xFF) {
-				i = 0;
-				do {
-					xQueueReceive(uart1_rx_queue, &c, portMAX_DELAY);
-					if (c != 0x0A) {
-						buf[i++] = c; 
-					}
-				} while (c != 0x0A);
+
+				// Read the length byte
+				xQueueReceive(uart1_rx_queue, &buf[0], portMAX_DELAY);
+
+				// Read exactly <length> bytes into buffer
+				for (i = 0; i < buf[0] + 1; i++) {
+					xQueueReceive(uart1_rx_queue, &buf[i+1], portMAX_DELAY);
+				}
 				
-				buf[i] = '\0';
 				break;
 			}
 		}

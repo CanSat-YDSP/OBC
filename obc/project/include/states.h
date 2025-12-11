@@ -35,6 +35,13 @@ typedef enum {
 	ENTER_CALIBRATION
 } CanSatEvents_t;
 
+typedef enum {
+	NONE,
+	UPLOADING,
+	SUCCESS,
+	FAILURE
+} UploadStatus;
+
 typedef void (*HandlerFunc)(); // typedef for function table
 
 // extern all handler functions

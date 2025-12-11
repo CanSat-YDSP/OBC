@@ -67,7 +67,7 @@ C_SRCS +=  \
 ../project/src/tasks.c \
 ../project/src/telemetry.c \
 ../project/src/uart.c \
-../project/src/W25Qxx.c
+../project/src/w25qxx.c
 
 
 PREPROCESSING_SRCS += 
@@ -94,7 +94,7 @@ project/src/states.o \
 project/src/tasks.o \
 project/src/telemetry.o \
 project/src/uart.o \
-project/src/W25Qxx.o
+project/src/w25qxx.o
 
 OBJS_AS_ARGS +=  \
 FreeRTOS/Source/list.o \
@@ -114,7 +114,7 @@ project/src/states.o \
 project/src/tasks.o \
 project/src/telemetry.o \
 project/src/uart.o \
-project/src/W25Qxx.o
+project/src/w25qxx.o
 
 C_DEPS +=  \
 FreeRTOS/Source/list.d \
@@ -134,7 +134,7 @@ project/src/states.d \
 project/src/tasks.d \
 project/src/telemetry.d \
 project/src/uart.d \
-project/src/W25Qxx.d
+project/src/w25qxx.d
 
 C_DEPS_AS_ARGS +=  \
 FreeRTOS/Source/list.d \
@@ -154,7 +154,7 @@ project/src/states.d \
 project/src/tasks.d \
 project/src/telemetry.d \
 project/src/uart.d \
-project/src/W25Qxx.d
+project/src/w25qxx.d
 
 OUTPUT_FILE_PATH +=obc.elf
 
@@ -289,7 +289,7 @@ project/src/uart.o: ../project/src/uart.c
 	@echo Finished building: $<
 	
 
-project/src/W25Qxx.o: ../project/src/W25Qxx.c
+project/src/w25qxx.o: ../project/src/w25qxx.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I".." -I"../project/include" -I"../FreeRTOS/Source/include" -I"../FreeRTOS/Source/portable/MemMang" -I"../FreeRTOS/Source/portable/WinAVR/ATmega2560"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

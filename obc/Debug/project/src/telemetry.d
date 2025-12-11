@@ -25,7 +25,8 @@ project/src/telemetry.d project/src/telemetry.o: \
  ../FreeRTOS/Source/include/list.h ../project/include/telemetry.h \
  ../project/include/states.h ../FreeRTOS/Source/include/semphr.h \
  ../FreeRTOS/Source/include/queue.h ../project/include/uart.h \
- ../project/include/states.h ../project/include/tasks.h
+ ../project/include/states.h ../project/include/tasks.h \
+ ../project/include/w25qxx.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
 
@@ -88,3 +89,5 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../project/include/states.h:
 
 ../project/include/tasks.h:
+
+../project/include/w25qxx.h:

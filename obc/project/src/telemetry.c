@@ -15,6 +15,7 @@
 #include "uart.h"
 #include "states.h"
 #include "tasks.h"
+#include "w25qxx.h"
 
 QueueHandle_t telemetryQueue;
 uint8_t packet_count = 0;
@@ -101,6 +102,10 @@ uint8_t checksum_calculator(TelemetryData *tm_data)
 	{
 		checksum ^= *((uint8_t *)(&(tm_data->cmd_echo)) + i);
 	}
+	for (size_t i = 0; i < sizeof(tm_data->upload_status); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->upload_status)) + i);
+	}
 	// ==============================================
 
 	return checksum;
@@ -137,7 +142,8 @@ void send_to_ground(void *pvParameters)
 		+ sizeof(universal_telemetry.gyr_y)
 		+ sizeof(universal_telemetry.gyr_z)
 		+ sizeof(universal_telemetry.checksum)
-		+ sizeof(universal_telemetry.cmd_echo);
+		+ sizeof(universal_telemetry.cmd_echo)
+		+ sizeof(universal_telemetry.upload_status);
 		
 		UART1_send_bytes(&packet_size, 1);
 
@@ -162,6 +168,7 @@ void send_to_ground(void *pvParameters)
 		UART1_send_bytes(&(universal_telemetry.gyr_z), sizeof(universal_telemetry.gyr_z));
 		
 		UART1_send_bytes(&(universal_telemetry.cmd_echo), sizeof(universal_telemetry.cmd_echo));
+		UART1_send_bytes(&(universal_telemetry.upload_status), sizeof(universal_telemetry.upload_status));
 		// ==============================================
 
 		UART1_send_bytes(&(universal_telemetry.checksum), sizeof(universal_telemetry.checksum));
@@ -173,7 +180,9 @@ void send_to_ground(void *pvParameters)
 }
 
 void receive_from_ground(void *pvParameters) {
-	uint8_t buf[20];
+	static uint8_t buf[100];
+	static uint8_t application_code[65];
+	
 	while (1) {
 		
 		UART1_receive_bytes(buf);
@@ -206,6 +215,28 @@ void receive_from_ground(void *pvParameters) {
 				xQueueSend(events_queue, &event, portMAX_DELAY);
 				break;
 			case 0x05:
+				// uploading code
+				print("uploading code\r\n");
+				xSemaphoreTake(stateMutex, portMAX_DELAY);
+				universal_telemetry.upload_status = UPLOADING;
+				xSemaphoreGive(stateMutex);
+				memcpy(application_code, &(buf[2]), command_length-1);
+				W25QXX_write_app(application_code, command_length-1);
+				break;
+			case 0x06:
+				print("final packet\r\n");
+				// last packet of code, second last character must be checksum of just the entire application code, last being packet checksum
+				memcpy(application_code, &(buf[2]), command_length-2); // exclude application checksum
+				uint8_t app_checksum = buf[command_length];
+				char output[30];
+				sprintf(output, "Received Checksum: %02x\r\n", app_checksum);
+				print(output);
+				W25QXX_write_app(application_code, command_length-2);
+				W25QXX_write_remainder(app_checksum);
+				W25QXX_visualise_page(0x000000, 300);
+				break;
+			case 0x07:
+				// start upload
 			default:
 				print("Something went wrong!\r\n");
 				UART0_send_bytes(buf, 20);
@@ -223,6 +254,6 @@ void receive_from_ground(void *pvParameters) {
 			xSemaphoreGive(stateMutex);
 		}
 
-		vTaskDelay(pdMS_TO_TICKS(500));
+		vTaskDelay(pdMS_TO_TICKS(300));
 	}
 }

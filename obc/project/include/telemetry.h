@@ -37,6 +37,7 @@ typedef struct {
 	float gyr_y;
 	float gyr_z;
 	uint8_t cmd_echo;
+	UploadStatus upload_status;
 	// ==============================================
 	uint8_t checksum;
 } TelemetryData;

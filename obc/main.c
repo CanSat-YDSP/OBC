@@ -25,7 +25,20 @@
 #define EVENTS_QUEUE_LEN 10
 #define SIM_PRESSURE_LEN 10
 
-void component_tests() {
+void component_init_and_tests() {
+	
+	sei();
+	UART_init(UBBR);
+	SPI_init();
+	//i2c_init();
+	BMP390_init(); // get required coefficients for BMP390
+	// BNO055_init();
+	//W25QXX_init();
+	
+	print("CatSat\r\n");
+	print("----------------\r\n");
+	print("Initializing and Testing...\r\n");
+	
 	// Component Tests
 	char output[30];
 	// W25Q32
@@ -35,19 +48,15 @@ void component_tests() {
 	sprintf(output, "BMP390: %d\r\n", BMP390_test());
 	print(output);
 	// BNO055
-	sprintf(output, "BNO055: %d\r\n", BNO055_test());
-	print(output);
-	
+	// sprintf(output, "BNO055: %d\r\n", BNO055_test());
+	// print(output);
 	// servo and buzzer
 	move_servo();
 	buzzer_start();
-	
 	_delay_ms(500);
-	
 	stop_servo();
 	buzzer_stop();
 	reset_servo();
-	
 	_delay_ms(500);
 	stop_servo();
 	
@@ -55,21 +64,8 @@ void component_tests() {
 }
 
 int main(void)
-{
-	sei();
-	UART_init(UBBR);
-	SPI_init();
-	i2c_init();
-	BMP390_init(); // get required coefficients for BMP390
-	BNO055_init();
-	
-	_delay_ms(1000);
-	
-	print("CatSat\r\n");
-	print("----------------\r\n");
-	print("Initializing...\r\n");
-	
-	component_tests();
+{	
+	component_init_and_tests();
 	
 	stateMutex = xSemaphoreCreateMutex();
 	uart1_rx_queue = xQueueCreate(RX_QUEUE_LEN, sizeof(uint8_t));
@@ -80,7 +76,7 @@ int main(void)
 	xTaskCreate(send_to_ground, "Task to send telemetry to ground", 200, NULL, 2, NULL);
 	
 	extern void receive_from_ground (void *pvParameters);
-	xTaskCreate(receive_from_ground, "Task to receive commands from ground", 200, NULL, 2, NULL);
+	xTaskCreate(receive_from_ground, "Task to receive commands from ground", 500, NULL, 2, NULL);
 	
 	extern void state_manager (void *pvParameters);
 	xTaskCreate(state_manager, "Task to handle all events", 100, NULL, 2, NULL);

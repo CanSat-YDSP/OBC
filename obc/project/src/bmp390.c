@@ -8,6 +8,8 @@
 #include "spi.h"
 #include "BMP390.h"
 
+#define PRESSURE_OFFSET 440
+
 BMP390_raw_data raw_readings;
 BMP390_trimming_coeff raw_calibs;
 BMP390_calculated_coeff calculated_calibs;
@@ -125,7 +127,7 @@ void BMP390_get_pres_data(float *pressure, float calculated_temperature)
 	partial_data4 = partial_data3 + (raw_readings.pressure * raw_readings.pressure * raw_readings.pressure) * calculated_calibs.par_p11;
 	comp_press = partial_out1 + partial_out2 + partial_data4;
 
-	*pressure = comp_press;
+	*pressure = comp_press + PRESSURE_OFFSET;
 }
 
 void parse_calib_data(const uint8_t *reg_data)

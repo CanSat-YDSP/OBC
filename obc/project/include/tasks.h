@@ -11,6 +11,8 @@
 #include <FreeRTOS.h>
 #include "queue.h"
 
+#define CURRENT_PRESSURE 100900.0f
+
 void task_led_blinky (void* pvParameters);
 void simulated_data_reading (void *pvParameters);
 

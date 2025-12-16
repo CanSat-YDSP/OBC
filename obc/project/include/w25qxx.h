@@ -24,5 +24,6 @@ void W25QXX_clear_chip();
 void W25QXX_write_app(uint8_t *buf, size_t len);
 void W25QXX_write_remainder(uint8_t checksum);
 void W25QXX_visualise_page(uint32_t addr, size_t len);
+void W25QXX_start_upload();
 
 #endif /* W25QXX_H_ */

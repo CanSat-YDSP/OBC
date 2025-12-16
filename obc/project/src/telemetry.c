@@ -236,7 +236,13 @@ void receive_from_ground(void *pvParameters) {
 				W25QXX_visualise_page(0x000000, 300);
 				break;
 			case 0x07:
-				// start upload
+				// start upload - initialize/reset upload state
+				print("starting new upload\r\n");
+				W25QXX_start_upload();
+				xSemaphoreTake(stateMutex, portMAX_DELAY);
+				universal_telemetry.upload_status = NONE;
+				xSemaphoreGive(stateMutex);
+				break;
 			default:
 				print("Something went wrong!\r\n");
 				UART0_send_bytes(buf, 20);

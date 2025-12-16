@@ -178,6 +178,19 @@ uint32_t curr_addr = 0x000000;
 uint8_t curr_checksum = 0;
 uint8_t ready_for_reflash = 0;
 
+void W25QXX_start_upload() {
+	// Reset all upload state variables
+	curr_index = 0;
+	curr_addr = 0x000000;
+	curr_checksum = 0;
+	ready_for_reflash = 0;
+	
+	// Clear the application flash area to prevent corruption from previous failed uploads
+	W25QXX_clear_A();
+	
+	print("Upload state reset\r\n");
+}
+
 void W25QXX_write_app(uint8_t *buf, size_t len) {
 	
 	curr_checksum ^= checksum_checker(buf, len);
@@ -213,9 +226,6 @@ void W25QXX_write_remainder(uint8_t checksum) {
 		W25QXX_write_page(curr_addr, curr_buf, curr_index);
 	}
 	
-	curr_addr = 0x000000; // reset
-	curr_index = 0; // reset
-	
 	char output[30];
 	sprintf(output, "Calculated Checksum: %02x\r\n", curr_checksum);
 	print(output);
@@ -233,4 +243,9 @@ void W25QXX_write_remainder(uint8_t checksum) {
 		xSemaphoreGive(stateMutex);
 		W25QXX_clear_A();	// clear out corrupted memory
 	}
+	
+	// Reset state variables after completion (success or failure)
+	curr_addr = 0x000000;
+	curr_index = 0;
+	curr_checksum = 0;
 }

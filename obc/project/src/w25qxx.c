@@ -185,6 +185,11 @@ void W25QXX_start_upload() {
 	curr_checksum = 0;
 	ready_for_reflash = 0;
 	
+	// Clear the buffer to remove stale data from previous uploads
+	for (int i = 0; i < 256; i++) {
+		curr_buf[i] = 0;
+	}
+	
 	// Clear the application flash area to prevent corruption from previous failed uploads
 	W25QXX_clear_A();
 	
@@ -248,4 +253,9 @@ void W25QXX_write_remainder(uint8_t checksum) {
 	curr_addr = 0x000000;
 	curr_index = 0;
 	curr_checksum = 0;
+	
+	// Clear the buffer for the next upload
+	for (int i = 0; i < 256; i++) {
+		curr_buf[i] = 0;
+	}
 }

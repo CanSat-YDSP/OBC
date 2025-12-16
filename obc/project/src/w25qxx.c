@@ -189,7 +189,9 @@ void W25QXX_start_upload() {
 	// Clear the buffer to remove stale data from previous uploads
 	memset(curr_buf, 0, sizeof(curr_buf));
 	
-	// Clear the application flash area to prevent corruption from previous failed uploads
+	// Clear the application flash area to ensure no residual data from previous 
+	// failed uploads remains. This prevents checksum validation issues if the 
+	// new upload is shorter than a previous incomplete upload.
 	W25QXX_clear_A();
 	
 	print("Upload state reset\r\n");

@@ -30,10 +30,10 @@ void component_init_and_tests() {
 	sei();
 	UART_init(UBBR);
 	SPI_init();
-	//i2c_init();
+	i2c_init();
 	BMP390_init(); // get required coefficients for BMP390
-	// BNO055_init();
-	//W25QXX_init();
+	BNO055_init();
+	W25QXX_init();
 	
 	print("CatSat\r\n");
 	print("----------------\r\n");
@@ -48,8 +48,8 @@ void component_init_and_tests() {
 	sprintf(output, "BMP390: %d\r\n", BMP390_test());
 	print(output);
 	// BNO055
-	// sprintf(output, "BNO055: %d\r\n", BNO055_test());
-	// print(output);
+	sprintf(output, "BNO055: %d\r\n", BNO055_test());
+	print(output);
 	// servo and buzzer
 	move_servo();
 	buzzer_start();

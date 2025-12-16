@@ -79,9 +79,9 @@ void data_reading (void *pvParameters) {
 		
 		universal_telemetry.temperature = temperature;
 		
-		//BNO055_read_acc(acc);
-		//BNO055_read_mag(mag);
-		//BNO055_read_gyr(gyr);
+		BNO055_read_acc(acc);
+		BNO055_read_mag(mag);
+		BNO055_read_gyr(gyr);
 		
 		universal_telemetry.acc_x = acc[0];
 		universal_telemetry.acc_y = acc[1];

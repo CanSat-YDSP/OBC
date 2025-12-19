@@ -37,6 +37,7 @@ typedef enum {
 
 typedef enum {
 	NONE,
+	READY,
 	UPLOADING,
 	SUCCESS,
 	FAILURE

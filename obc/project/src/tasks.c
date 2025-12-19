@@ -10,6 +10,7 @@
 #include <tasks.h>
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/pgmspace.h>
 
 // FreeRTOS
 #include <FreeRTOS.h>
@@ -67,10 +68,11 @@ void data_reading (void *pvParameters) {
 		
 		BMP390_get_readings(&pressure, &temperature);
 		if (universal_telemetry.mode == MODE_SIMULATION) {
+			xSemaphoreGive(stateMutex);
 			if (xQueueReceive(simulated_pressure_queue, &pressure, portMAX_DELAY) != pdTRUE) {
-				xSemaphoreGive(stateMutex);
 				return 0;
 			}
+			xSemaphoreTake(stateMutex, portMAX_DELAY);
 		}
 			
 		universal_telemetry.pressure = pressure;
@@ -95,13 +97,13 @@ void data_reading (void *pvParameters) {
 		universal_telemetry.gyr_y = gyr[1];
 		universal_telemetry.gyr_z = gyr[2];
 			
-		char altitude_text[20];
-		sprintf(altitude_text, "Altitude: %d\r\n", (int)(universal_telemetry.altitude * 100));
-		print(altitude_text);
+		//char altitude_text[20];
+		//sprintf(altitude_text, "Altitude: %d\r\n", (int)(universal_telemetry.altitude * 100));
+		//print(altitude_text);
 			
 		// send events if altitude is high enough
 		if (is_falling(universal_telemetry.altitude)) {
-			print("Is Falling!\r\n");
+			// print("Is Falling!\r\n");
 			event = MAX_HEIGHT_REACHED;
 			xQueueSend(events_queue, &event, portMAX_DELAY);
 		}
@@ -118,6 +120,29 @@ void data_reading (void *pvParameters) {
 			
 		old_altitude = universal_telemetry.altitude;
 			
+		xSemaphoreGive(stateMutex);
+		
+		vTaskDelay(pdMS_TO_TICKS(1000));
+	}
+}
+
+void pgm_verifier(void *pvParameters) {
+	uint32_t app_size = *((uint32_t*)pvParameters);
+	while (1) {
+		uint8_t checksum = 0;
+		for (uint32_t cntr = 0; cntr < app_size; cntr++) {
+			uint8_t byte;
+			if (cntr > 0xFFFF) {
+				byte = pgm_read_byte_far(cntr);
+				checksum ^= checksum_checker(&byte, 1);
+			} else {
+				byte = pgm_read_byte(cntr);
+				checksum ^= checksum_checker(&byte, 1);
+			}
+		}
+		
+		xSemaphoreTake(stateMutex, portMAX_DELAY);
+		universal_telemetry.app_checksum = checksum;
 		xSemaphoreGive(stateMutex);
 		
 		vTaskDelay(pdMS_TO_TICKS(1000));

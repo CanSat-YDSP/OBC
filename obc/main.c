@@ -10,6 +10,7 @@
 #include <queue.h>
 #include <semphr.h>
 #include <util/delay.h>
+#include <avr/eeprom.h>
 
 // 
 #include "uart.h"
@@ -28,12 +29,12 @@
 void component_init_and_tests() {
 	
 	sei();
-	UART_init(UBBR);
+	
 	SPI_init();
 	i2c_init();
 	BMP390_init(); // get required coefficients for BMP390
 	BNO055_init();
-	W25QXX_init();
+	// W25QXX_init(); // Only use in BOOTLOADER
 	
 	print("CatSat\r\n");
 	print("----------------\r\n");
@@ -65,6 +66,16 @@ void component_init_and_tests() {
 
 int main(void)
 {	
+	// read app size from the bootloader
+	
+	UART_init(UBBR);
+	
+	uint32_t app_size = eeprom_read_dword((uint32_t*)0x00);
+	
+	uint8_t size_buf[20];
+	sprintf(size_buf, "size: %lu\r\n", app_size);
+	print(size_buf);
+	
 	component_init_and_tests();
 	
 	stateMutex = xSemaphoreCreateMutex();
@@ -83,6 +94,9 @@ int main(void)
 	
 	extern void data_reading (void *pvParameters);
 	xTaskCreate(data_reading, "Task to read data from sensors", 400, NULL, 2, NULL);
+	
+	extern void pgm_verifier(void *pvParameters);
+	xTaskCreate(pgm_verifier, "Task to calculate checksum of the app", 100, (void *)&app_size, 2, NULL);
 	
 	print("Starting...\r\n");
 	

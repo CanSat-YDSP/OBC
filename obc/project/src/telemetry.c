@@ -6,6 +6,8 @@
  */
 
 #include <string.h>
+#include <util/delay.h>
+#include <avr/wdt.h>
 
 #include <FreeRTOS.h>
 #include <queue.h>
@@ -102,6 +104,10 @@ uint8_t checksum_calculator(TelemetryData *tm_data)
 	{
 		checksum ^= *((uint8_t *)(&(tm_data->cmd_echo)) + i);
 	}
+	for (size_t i = 0; i < sizeof(tm_data->app_checksum); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->app_checksum)) + i);
+	}
 	for (size_t i = 0; i < sizeof(tm_data->upload_status); i++)
 	{
 		checksum ^= *((uint8_t *)(&(tm_data->upload_status)) + i);
@@ -143,6 +149,7 @@ void send_to_ground(void *pvParameters)
 		+ sizeof(universal_telemetry.gyr_z)
 		+ sizeof(universal_telemetry.checksum)
 		+ sizeof(universal_telemetry.cmd_echo)
+		+ sizeof(universal_telemetry.app_checksum)
 		+ sizeof(universal_telemetry.upload_status);
 		
 		UART1_send_bytes(&packet_size, 1);
@@ -168,6 +175,7 @@ void send_to_ground(void *pvParameters)
 		UART1_send_bytes(&(universal_telemetry.gyr_z), sizeof(universal_telemetry.gyr_z));
 		
 		UART1_send_bytes(&(universal_telemetry.cmd_echo), sizeof(universal_telemetry.cmd_echo));
+		UART1_send_bytes(&(universal_telemetry.app_checksum), sizeof(universal_telemetry.app_checksum));
 		UART1_send_bytes(&(universal_telemetry.upload_status), sizeof(universal_telemetry.upload_status));
 		// ==============================================
 
@@ -214,29 +222,16 @@ void receive_from_ground(void *pvParameters) {
 				event = ENTER_CALIBRATION;
 				xQueueSend(events_queue, &event, portMAX_DELAY);
 				break;
-			case 0x05:
-				// uploading code
-				print("uploading code\r\n");
-				xSemaphoreTake(stateMutex, portMAX_DELAY);
-				universal_telemetry.upload_status = UPLOADING;
-				xSemaphoreGive(stateMutex);
-				memcpy(application_code, &(buf[2]), command_length-1);
-				W25QXX_write_app(application_code, command_length-1);
-				break;
-			case 0x06:
-				print("final packet\r\n");
-				// last packet of code, second last character must be checksum of just the entire application code, last being packet checksum
-				memcpy(application_code, &(buf[2]), command_length-2); // exclude application checksum
-				uint8_t app_checksum = buf[command_length];
-				char output[30];
-				sprintf(output, "Received Checksum: %02x\r\n", app_checksum);
-				print(output);
-				W25QXX_write_app(application_code, command_length-2);
-				W25QXX_write_remainder(app_checksum);
-				W25QXX_visualise_page(0x000000, 300);
-				break;
 			case 0x07:
-				// start upload
+				move_servo();
+				_delay_ms(1000);
+				stop_servo();
+				break;
+			case 0x46:
+				// enter bootloader
+				wdt_enable(WDTO_250MS);
+				while(1); // wait for reset
+				break;
 			default:
 				print("Something went wrong!\r\n");
 				UART0_send_bytes(buf, 20);

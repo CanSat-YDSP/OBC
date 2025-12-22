@@ -33,7 +33,7 @@ void ascent_handler() {
 	xSemaphoreTake(stateMutex, portMAX_DELAY);
 	if (universal_telemetry.stage == LAUNCH_PAD) {
 		universal_telemetry.stage = ASCENT;
-		print("Launched!\r\n");
+		print("Ascending...\r\n");
 	}
 	xSemaphoreGive(stateMutex);
 }
@@ -42,7 +42,7 @@ void descent_hander() {
 	xSemaphoreTake(stateMutex, portMAX_DELAY);
 	if (universal_telemetry.stage == ASCENT) {
 		universal_telemetry.stage = DESCENT;
-		print("Falling!\r\n");
+		print("Descending...\r\n");
 		// set deploy height to ~75% height reached
 		deploy_height = 0.75 * universal_telemetry.altitude;
 		// print("deploy_height established!\r\n");
@@ -53,9 +53,8 @@ void descent_hander() {
 void release_handler() {
 	xSemaphoreTake(stateMutex, portMAX_DELAY);
 	if (universal_telemetry.stage == DESCENT) {
-		print("release handler\r\n");
 		universal_telemetry.stage = PROBE_RELEASE;
-		print("Probe Released!\r\n");
+		print("Releasing Probe\r\n");
 		move_servo();
 		_delay_ms(1000);
 		stop_servo();
@@ -67,7 +66,7 @@ void landing_handler() {
 	xSemaphoreTake(stateMutex, portMAX_DELAY);
 	if (universal_telemetry.stage == PROBE_RELEASE) {
 		universal_telemetry.stage = LANDED;
-		print("Landed!\r\n");
+		print("Landed.\r\n");
 		DDRL |= (1<<PL5);
 		PORTL |= (1<<PL5);
 	}
@@ -75,6 +74,7 @@ void landing_handler() {
 }
 
 void sim_handler() {
+	print("Entering Simulation Mode...\r\n");
 	xSemaphoreTake(stateMutex, portMAX_DELAY);
 	if (universal_telemetry.mode != MODE_SIMULATION) {
 		universal_telemetry.mode = MODE_SIMULATION;
@@ -85,6 +85,7 @@ void sim_handler() {
 }
 
 void calibration_handler() {
+	print("Calibrating Altitude...\r\n");
 	float pressure, temperature;
 	BMP390_get_readings(&pressure, &temperature);
 	old_altitude = 0;

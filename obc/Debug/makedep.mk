@@ -38,3 +38,5 @@ project\src\uart.c
 
 project\src\w25qxx.c
 
+project\src\XBEE.c
+

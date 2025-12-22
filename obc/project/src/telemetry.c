@@ -18,6 +18,7 @@
 #include "states.h"
 #include "tasks.h"
 #include "w25qxx.h"
+#include "XBEE.h"
 
 QueueHandle_t telemetryQueue;
 uint8_t packet_count = 0;
@@ -118,70 +119,72 @@ uint8_t checksum_calculator(TelemetryData *tm_data)
 }
 
 void send_to_ground(void *pvParameters)
-{
+{	
 	uint8_t start = START_BYTE;
 	uint8_t end = END_BYTE;
 	while (1)
 	{
-		xSemaphoreTake(stateMutex, portMAX_DELAY);
+		if (!is_updating) {
+			xSemaphoreTake(stateMutex, portMAX_DELAY);
 
-		universal_telemetry.packet_count = packet_count++;
-		// calculate checksum
-		universal_telemetry.checksum = checksum_calculator(&universal_telemetry);
+			universal_telemetry.packet_count = packet_count++;
+			// calculate checksum
+			universal_telemetry.checksum = checksum_calculator(&universal_telemetry);
 		
-		UART1_send_bytes(&start, 1);
+			UART1_send_bytes(&start, 1);
 		
-		uint8_t packet_size =
-		sizeof(universal_telemetry.packet_count)
-		+ sizeof(universal_telemetry.mode)
-		+ sizeof(universal_telemetry.stage)
-		+ sizeof(universal_telemetry.altitude)
-		+ sizeof(universal_telemetry.pressure)
-		+ sizeof(universal_telemetry.temperature)
-		+ sizeof(universal_telemetry.acc_x)
-		+ sizeof(universal_telemetry.acc_y)
-		+ sizeof(universal_telemetry.acc_z)
-		+ sizeof(universal_telemetry.mag_x)
-		+ sizeof(universal_telemetry.mag_y)
-		+ sizeof(universal_telemetry.mag_z)
-		+ sizeof(universal_telemetry.gyr_x)
-		+ sizeof(universal_telemetry.gyr_y)
-		+ sizeof(universal_telemetry.gyr_z)
-		+ sizeof(universal_telemetry.checksum)
-		+ sizeof(universal_telemetry.cmd_echo)
-		+ sizeof(universal_telemetry.app_checksum)
-		+ sizeof(universal_telemetry.upload_status);
+			uint8_t packet_size =
+			sizeof(universal_telemetry.packet_count)
+			+ sizeof(universal_telemetry.mode)
+			+ sizeof(universal_telemetry.stage)
+			+ sizeof(universal_telemetry.altitude)
+			+ sizeof(universal_telemetry.pressure)
+			+ sizeof(universal_telemetry.temperature)
+			+ sizeof(universal_telemetry.acc_x)
+			+ sizeof(universal_telemetry.acc_y)
+			+ sizeof(universal_telemetry.acc_z)
+			+ sizeof(universal_telemetry.mag_x)
+			+ sizeof(universal_telemetry.mag_y)
+			+ sizeof(universal_telemetry.mag_z)
+			+ sizeof(universal_telemetry.gyr_x)
+			+ sizeof(universal_telemetry.gyr_y)
+			+ sizeof(universal_telemetry.gyr_z)
+			+ sizeof(universal_telemetry.checksum)
+			+ sizeof(universal_telemetry.cmd_echo)
+			+ sizeof(universal_telemetry.app_checksum)
+			+ sizeof(universal_telemetry.upload_status);
 		
-		UART1_send_bytes(&packet_size, 1);
+			UART1_send_bytes(&packet_size, 1);
 
-		// =============== For Automation ===============
-		UART1_send_bytes(&(universal_telemetry.packet_count), sizeof(universal_telemetry.packet_count));
-		UART1_send_bytes(&(universal_telemetry.mode), sizeof(universal_telemetry.mode));
-		UART1_send_bytes(&(universal_telemetry.stage), sizeof(universal_telemetry.stage));
-		UART1_send_bytes(&(universal_telemetry.altitude), sizeof(universal_telemetry.altitude));
-		UART1_send_bytes(&(universal_telemetry.pressure), sizeof(universal_telemetry.pressure));
-		UART1_send_bytes(&(universal_telemetry.temperature), sizeof(universal_telemetry.temperature));
+			// =============== For Automation ===============
+			UART1_send_bytes(&(universal_telemetry.packet_count), sizeof(universal_telemetry.packet_count));
+			UART1_send_bytes(&(universal_telemetry.mode), sizeof(universal_telemetry.mode));
+			UART1_send_bytes(&(universal_telemetry.stage), sizeof(universal_telemetry.stage));
+			UART1_send_bytes(&(universal_telemetry.altitude), sizeof(universal_telemetry.altitude));
+			UART1_send_bytes(&(universal_telemetry.pressure), sizeof(universal_telemetry.pressure));
+			UART1_send_bytes(&(universal_telemetry.temperature), sizeof(universal_telemetry.temperature));
 		
-		UART1_send_bytes(&(universal_telemetry.acc_x), sizeof(universal_telemetry.acc_x));
-		UART1_send_bytes(&(universal_telemetry.acc_y), sizeof(universal_telemetry.acc_y));
-		UART1_send_bytes(&(universal_telemetry.acc_z), sizeof(universal_telemetry.acc_z));
+			UART1_send_bytes(&(universal_telemetry.acc_x), sizeof(universal_telemetry.acc_x));
+			UART1_send_bytes(&(universal_telemetry.acc_y), sizeof(universal_telemetry.acc_y));
+			UART1_send_bytes(&(universal_telemetry.acc_z), sizeof(universal_telemetry.acc_z));
 
-		UART1_send_bytes(&(universal_telemetry.mag_x), sizeof(universal_telemetry.mag_x));
-		UART1_send_bytes(&(universal_telemetry.mag_y), sizeof(universal_telemetry.mag_y));
-		UART1_send_bytes(&(universal_telemetry.mag_z), sizeof(universal_telemetry.mag_z));
+			UART1_send_bytes(&(universal_telemetry.mag_x), sizeof(universal_telemetry.mag_x));
+			UART1_send_bytes(&(universal_telemetry.mag_y), sizeof(universal_telemetry.mag_y));
+			UART1_send_bytes(&(universal_telemetry.mag_z), sizeof(universal_telemetry.mag_z));
 
-		UART1_send_bytes(&(universal_telemetry.gyr_x), sizeof(universal_telemetry.gyr_x));
-		UART1_send_bytes(&(universal_telemetry.gyr_y), sizeof(universal_telemetry.gyr_y));
-		UART1_send_bytes(&(universal_telemetry.gyr_z), sizeof(universal_telemetry.gyr_z));
+			UART1_send_bytes(&(universal_telemetry.gyr_x), sizeof(universal_telemetry.gyr_x));
+			UART1_send_bytes(&(universal_telemetry.gyr_y), sizeof(universal_telemetry.gyr_y));
+			UART1_send_bytes(&(universal_telemetry.gyr_z), sizeof(universal_telemetry.gyr_z));
 		
-		UART1_send_bytes(&(universal_telemetry.cmd_echo), sizeof(universal_telemetry.cmd_echo));
-		UART1_send_bytes(&(universal_telemetry.app_checksum), sizeof(universal_telemetry.app_checksum));
-		UART1_send_bytes(&(universal_telemetry.upload_status), sizeof(universal_telemetry.upload_status));
-		// ==============================================
+			UART1_send_bytes(&(universal_telemetry.cmd_echo), sizeof(universal_telemetry.cmd_echo));
+			UART1_send_bytes(&(universal_telemetry.app_checksum), sizeof(universal_telemetry.app_checksum));
+			UART1_send_bytes(&(universal_telemetry.upload_status), sizeof(universal_telemetry.upload_status));
+			// ==============================================
 
-		UART1_send_bytes(&(universal_telemetry.checksum), sizeof(universal_telemetry.checksum));
+			UART1_send_bytes(&(universal_telemetry.checksum), sizeof(universal_telemetry.checksum));
 
-		xSemaphoreGive(stateMutex);
+			xSemaphoreGive(stateMutex);
+		}
 
 		vTaskDelay(pdMS_TO_TICKS(1000));
 	}
@@ -199,38 +202,50 @@ void receive_from_ground(void *pvParameters) {
 
 		size_t command_length = buf[0];
 		uint8_t command_id = buf[1];
-		uint8_t command_echo = command_id;
+		CommandID command_echo = command_id;
 		CanSatEvents_t event;
 		
 		// confirm validity of command packet
 		if (checksum_checker(&buf[1], command_length) == buf[command_length + 1]) {
-			switch (command_id) {
-			case 0x01:
+			
+			switch ((CommandID)command_id) {
+			case LAUNCH:
+				print("LAUNCH\r\n");
 				event = LAUNCH_OK;
 				xQueueSend(events_queue, &event, portMAX_DELAY);
 				break;
-			case 0x02: ;
+			case SET_PRESSURE: 
+				print("SET_PRESSURE\r\n");
 				float pressure;
 				memcpy(&pressure, &buf[2], sizeof(float));
 				xQueueSend(simulated_pressure_queue, &pressure, portMAX_DELAY);
 				break;
-			case 0x03:
+			case ENTER_SIMULATION:
+				print("ENTER_SIMULATION\r\n");
 				event = ENTER_SIM;
 				xQueueSend(events_queue, &event, portMAX_DELAY);
 				break;
-			case 0x04:
+			case CALIBRATE_ALTITUDE:
+				print("CALIBRATE_ALTITUDE\r\n");
 				event = ENTER_CALIBRATION;
 				xQueueSend(events_queue, &event, portMAX_DELAY);
 				break;
-			case 0x07:
+			case SERVO:
+				print("SERVO\r\n");
 				move_servo();
 				_delay_ms(1000);
 				stop_servo();
 				break;
-			case 0x46:
+			case RESET:
+				print("RESET\r\n");
 				// enter bootloader
 				wdt_enable(WDTO_250MS);
 				while(1); // wait for reset
+				break;
+			case AT:
+				print("AT\r\n");
+				// send AT command to XBEE
+				send_AT_command(&buf[2], command_length - 1);
 				break;
 			default:
 				print("Something went wrong!\r\n");

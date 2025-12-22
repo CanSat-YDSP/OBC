@@ -115,6 +115,18 @@ void UART1_receive_bytes(uint8_t *buf) {
 	}
 }
 
+uint8_t UART1_receive_ok() {
+	uint8_t c;
+	
+	if (xQueueReceive(uart1_rx_queue, &c, portMAX_DELAY) == pdTRUE) {
+		if (c == 'O' || c == 'K' || c == '\r') {
+			return 1;
+		}
+	}
+	
+	return 0;
+}
+
 ISR(USART1_RX_vect) {
 	uint8_t c = UDR1;
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;

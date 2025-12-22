@@ -232,6 +232,9 @@
     <Compile Include="project\include\w25qxx.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="project\include\XBEE.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="project\src\BMP390.c">
       <SubType>compile</SubType>
     </Compile>
@@ -263,6 +266,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="project\src\w25qxx.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="project\src\XBEE.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

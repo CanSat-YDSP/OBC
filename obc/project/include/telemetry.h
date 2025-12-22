@@ -43,6 +43,19 @@ typedef struct {
 	uint8_t checksum;
 } TelemetryData;
 
+typedef enum {
+	RESET = 0x00,
+	LAUNCH = 0x01,
+	SET_PRESSURE = 0x02,
+	ENTER_SIMULATION = 0x03,
+	CALIBRATE_ALTITUDE = 0x04,
+	BINARY_DATA_START = 0x05,
+	BINARY_DATA_PACKET = 0x06,
+	BINARY_DATA_END = 0x07,
+	SERVO = 0x08,
+	AT = 0x09
+} CommandID;
+
 extern QueueHandle_t telemetryQueue;
 
 extern TelemetryData universal_telemetry;

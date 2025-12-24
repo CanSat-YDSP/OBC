@@ -14,9 +14,10 @@ void move_servo() {
 	TCCR5A = 0b00100010;
 	TCCR5B = 0b00011011;
 	ICR5 = 4999;
-	OCR5B = 250; // 2ms, to the right
+	OCR5B = 275; // 2ms, to the right
 }
 
+// clamped position
 void reset_servo() {
 	DDRL |= (1<<PL4);
 	
@@ -24,7 +25,7 @@ void reset_servo() {
 	TCCR5A = 0b00100010;
 	TCCR5B = 0b00011011;
 	ICR5 = 4999;
-	OCR5B = 500; // 2ms, to the right
+	OCR5B = 475; // 2ms, to the right
 }
 
 void stop_servo() {

@@ -53,12 +53,15 @@ typedef enum {
 	BINARY_DATA_PACKET = 0x06,
 	BINARY_DATA_END = 0x07,
 	SERVO = 0x08,
-	AT = 0x09
+	AT = 0x09,
+	STARTUP_ACK = 0x0A
 } CommandID;
 
 extern QueueHandle_t telemetryQueue;
 
 extern TelemetryData universal_telemetry;
+
+extern uint8_t startup_ack;
 
 void send_to_ground (void *pvParameters);
 

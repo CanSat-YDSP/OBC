@@ -36,7 +36,7 @@ void component_init_and_tests() {
 	BNO055_init();
 	// W25QXX_init(); // Only use in BOOTLOADER
 	
-	print("CatSat\r\n");
+	print("CatSat 75percent\r\n");
 	print("----------------\r\n");
 	print("Initializing and Testing...\r\n");
 	
@@ -52,16 +52,12 @@ void component_init_and_tests() {
 	sprintf(output, "BNO055: %d\r\n", BNO055_test());
 	print(output);
 	// servo and buzzer
-	move_servo();
+	//move_servo();
 	buzzer_start();
 	_delay_ms(500);
-	stop_servo();
 	buzzer_stop();
 	reset_servo();
 	_delay_ms(500);
-	stop_servo();
-	
-	_delay_ms(1000);
 }
 
 int main(void)
@@ -97,6 +93,9 @@ int main(void)
 	
 	extern void pgm_verifier(void *pvParameters);
 	xTaskCreate(pgm_verifier, "Task to calculate checksum of the app", 100, (void *)&app_size, 2, NULL);
+	
+	extern void bootWatchdog(void *pvParameters);
+	xTaskCreate(bootWatchdog, "Task to enter bootloader if no response", 100, NULL, 2, NULL);
 	
 	print("Starting...\r\n");
 	

@@ -9,6 +9,7 @@
 
 #include <tasks.h>
 #include <avr/io.h>
+#include <avr/wdt.h>
 #include <util/delay.h>
 #include <avr/pgmspace.h>
 
@@ -25,6 +26,8 @@
 
 #define FALL_THRESHOLD 5.0f
 #define STATIONARY_THRESHOLD 0.5f
+
+#define WATCHDOG_TIMEOUT_MS   30000
 
 QueueHandle_t simulated_pressure_queue;
 float old_altitude;
@@ -144,6 +147,25 @@ void pgm_verifier(void *pvParameters) {
 		xSemaphoreTake(stateMutex, portMAX_DELAY);
 		universal_telemetry.app_checksum = checksum;
 		xSemaphoreGive(stateMutex);
+		
+		vTaskDelay(pdMS_TO_TICKS(1000));
+	}
+}
+
+void bootWatchdog(void *pvParameters) {
+	TickType_t start = xTaskGetTickCount();
+	
+	while (1) {
+		if (startup_ack == 1) {
+			vTaskDelete(NULL);
+		}
+		
+		if ((xTaskGetTickCount() - start) > pdMS_TO_TICKS(WATCHDOG_TIMEOUT_MS)) {
+			taskENTER_CRITICAL();
+			// enter bootloader
+			wdt_enable(WDTO_250MS);
+			while(1); // wait for reset
+		}
 		
 		vTaskDelay(pdMS_TO_TICKS(1000));
 	}

@@ -23,6 +23,8 @@
 QueueHandle_t telemetryQueue;
 uint8_t packet_count = 0;
 
+uint8_t startup_ack = 0;
+
 uint8_t checksum_checker(uint8_t *buf, size_t len) {
     uint8_t checksum = 0;
     for (size_t i = 0; i < len; i++) {
@@ -246,6 +248,10 @@ void receive_from_ground(void *pvParameters) {
 				print("AT\r\n");
 				// send AT command to XBEE
 				send_AT_command(&buf[2], command_length - 1);
+				break;
+			case STARTUP_ACK:
+				print("STARTUP_ACK\r\n");
+				startup_ack = 1;
 				break;
 			default:
 				print("Something went wrong!\r\n");

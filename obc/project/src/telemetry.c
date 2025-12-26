@@ -43,6 +43,11 @@ uint8_t checksum_calculator(TelemetryData *tm_data)
 		checksum ^= *((uint8_t *)(&(tm_data->packet_count)) + i);
 	}
 	
+	for (size_t i = 0; i < sizeof(tm_data->software_ver); i++)
+	{
+		checksum ^= *((uint8_t *)(&(tm_data->software_ver)) + i);
+	}
+	
 	for (size_t i = 0; i < sizeof(tm_data->mode); i++)
 	{
 		checksum ^= *((uint8_t *)(&(tm_data->mode)) + i);
@@ -137,6 +142,7 @@ void send_to_ground(void *pvParameters)
 		
 			uint8_t packet_size =
 			sizeof(universal_telemetry.packet_count)
+			+ sizeof(universal_telemetry.software_ver)
 			+ sizeof(universal_telemetry.mode)
 			+ sizeof(universal_telemetry.stage)
 			+ sizeof(universal_telemetry.altitude)
@@ -160,6 +166,7 @@ void send_to_ground(void *pvParameters)
 
 			// =============== For Automation ===============
 			UART1_send_bytes(&(universal_telemetry.packet_count), sizeof(universal_telemetry.packet_count));
+			UART1_send_bytes(&(universal_telemetry.software_ver), sizeof(universal_telemetry.software_ver));
 			UART1_send_bytes(&(universal_telemetry.mode), sizeof(universal_telemetry.mode));
 			UART1_send_bytes(&(universal_telemetry.stage), sizeof(universal_telemetry.stage));
 			UART1_send_bytes(&(universal_telemetry.altitude), sizeof(universal_telemetry.altitude));
@@ -240,6 +247,10 @@ void receive_from_ground(void *pvParameters) {
 				break;
 			case RESET:
 				print("RESET\r\n");
+				
+				// reset servo position
+				reset_servo();
+				
 				// enter bootloader
 				wdt_enable(WDTO_250MS);
 				while(1); // wait for reset

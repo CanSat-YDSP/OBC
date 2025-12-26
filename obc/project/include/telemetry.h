@@ -22,6 +22,7 @@ extern uint8_t packet_count;
 typedef struct {
 	// =============== For Automation ===============
 	uint8_t packet_count;
+	uint8_t software_ver;
 	CanSatMode_t mode;
 	CanSatStage_t stage;
 	float altitude;

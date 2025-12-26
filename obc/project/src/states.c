@@ -44,7 +44,7 @@ void descent_hander() {
 		universal_telemetry.stage = DESCENT;
 		print("Descending...\r\n");
 		// set deploy height to ~75% height reached
-		deploy_height = 0.75 * universal_telemetry.altitude;
+		deploy_height = 0.5 * universal_telemetry.altitude;
 		// print("deploy_height established!\r\n");
 	}
 	xSemaphoreGive(stateMutex);
@@ -95,6 +95,7 @@ void calibration_handler() {
 void state_manager(void *pvParameters) {
 	universal_telemetry.mode = MODE_FLIGHT; // default: MODE_FLIGHT
 	universal_telemetry.stage = LAUNCH_PAD;		// cansat starts off on ground
+	universal_telemetry.software_ver = *((uint8_t*)(pvParameters));
 
 	CanSatEvents_t current_event;
 

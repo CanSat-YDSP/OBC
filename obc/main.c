@@ -1,3 +1,12 @@
+/*
+ * main.c
+ *
+ * Created: 26/12/2025 9:53:51 pm
+ *  Author: Yu Heng
+ */ 
+
+#define VERSION 2 // every major compilation should have a different version number for telemetry
+
 #define F_CPU 16000000L // Specify oscillator frequency
 #define BAUD_RATE 9600
 #define UBBR ((F_CPU)/(16UL*BAUD_RATE) - 1) // for UART_init
@@ -36,7 +45,7 @@ void component_init_and_tests() {
 	BNO055_init();
 	// W25QXX_init(); // Only use in BOOTLOADER
 	
-	print("CatSat 75percent\r\n");
+	print("CatSat 50percent\r\n");
 	print("----------------\r\n");
 	print("Initializing and Testing...\r\n");
 	
@@ -66,6 +75,7 @@ int main(void)
 	
 	UART_init(UBBR);
 	
+	uint8_t version = VERSION;
 	uint32_t app_size = eeprom_read_dword((uint32_t*)0x00);
 	
 	uint8_t size_buf[20];
@@ -86,7 +96,7 @@ int main(void)
 	xTaskCreate(receive_from_ground, "Task to receive commands from ground", 500, NULL, 2, NULL);
 	
 	extern void state_manager (void *pvParameters);
-	xTaskCreate(state_manager, "Task to handle all events", 100, NULL, 2, NULL);
+	xTaskCreate(state_manager, "Task to handle all events", 100, (void *)&version, 2, NULL);
 	
 	extern void data_reading (void *pvParameters);
 	xTaskCreate(data_reading, "Task to read data from sensors", 400, NULL, 2, NULL);
